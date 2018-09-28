@@ -1,17 +1,22 @@
-﻿namespace Lesson02
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Lesson02
 {
-    class Program
+    static class Program
     {
-        // naimplementovat blind search a hill climbing
-        // naimplementovat 5 testovacich funkci
-
-        // testovani bude probihat 50x a vybereme z nich stredni hodnotu
-        // bude mit 2 (pro vykreslovani), 10, 30 dimenzi
-
-        // ackley, sphere, Rosenbrock function, schwefel
-        static void Main(string[] args)
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }
