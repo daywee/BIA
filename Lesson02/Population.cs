@@ -9,20 +9,32 @@ namespace Lesson02
     public class Population
     {
         public int Dimensions { get; }
-        public int PopulationCount { get; }
+        public OptimizationTarget OptimizationTarget { get; }
+        public int MaxPopulationCount { get; }
         public List<Individual> CurrentPopulation { get; private set; }
         public int Generation { get; private set; }
 
-        private readonly FunctionBase _optimizationFunction;
+        public FunctionBase OptimizationFunction { get; set; }
         private readonly Random _random = new Random();
-        private Individual _bestIndividual;
+        public Individual BestIndividual { get; private set; }
 
-        public Population(FunctionBase optimizationFunction, int populationCount, int dimensions)
+        public Population(FunctionBase optimizationFunction, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
-            _optimizationFunction = optimizationFunction;
-            PopulationCount = populationCount;
+            if (dimensions != 2)
+                throw new ArgumentOutOfRangeException(nameof(dimensions), "Only 2 dimensions are currently supported");
+
+            OptimizationFunction = optimizationFunction;
+            MaxPopulationCount = maxPopulationCount;
             Dimensions = dimensions;
-            _bestIndividual = GetRandomIndividual();
+            OptimizationTarget = optimizationTarget;
+            CreateNewPopulation();
+        }
+
+        public void CreateNewPopulation()
+        {
+            BestIndividual = GetRandomIndividual();
+            CurrentPopulation = new List<Individual> { BestIndividual };
+            Generation = 0;
         }
 
         public void Evolve()
@@ -34,14 +46,14 @@ namespace Lesson02
 
         private void GeneratePopulation()
         {
-            CurrentPopulation = Enumerable.Range(0, PopulationCount)
+            CurrentPopulation = Enumerable.Range(0, MaxPopulationCount)
                 .Select(_ =>
                 {
                     var (x1, x2) = _random.NextNormalDistribution2D();
 
                     // translate by current best individual
-                    x1 += _bestIndividual[0];
-                    x2 += _bestIndividual[1];
+                    x1 += BestIndividual[0];
+                    x2 += BestIndividual[1];
 
                     return new Individual(Dimensions) { [0] = x1, [1] = x2 };
                 })
@@ -51,27 +63,28 @@ namespace Lesson02
         private void SetBestIndividual()
         {
             Individual bestIndividual = CurrentPopulation.First();
-            double bestValue = _optimizationFunction.Calculate(bestIndividual[0], bestIndividual[1]);
+            double bestValue = OptimizationFunction.Calculate(bestIndividual[0], bestIndividual[1]);
 
-            for (int i = 1; i < PopulationCount; i++)
+            for (int i = 1; i < MaxPopulationCount; i++)
             {
                 Individual currentIndividual = CurrentPopulation[i];
-                double currentValue = _optimizationFunction.Calculate(currentIndividual[0], currentIndividual[1]);
+                double currentValue = OptimizationFunction.Calculate(currentIndividual[0], currentIndividual[1]);
 
-                if (currentValue > bestValue)
+                if ((OptimizationTarget == OptimizationTarget.Maximum && currentValue > bestValue)
+                    || (OptimizationTarget == OptimizationTarget.Minimum && currentValue < bestValue))
                 {
                     bestIndividual = currentIndividual;
                     bestValue = currentValue;
                 }
             }
 
-            _bestIndividual = bestIndividual;
+            BestIndividual = bestIndividual;
         }
 
         private Individual GetRandomIndividual()
         {
-            var min = _optimizationFunction.MinX;
-            var max = _optimizationFunction.MaxX;
+            var min = OptimizationFunction.MinX;
+            var max = OptimizationFunction.MaxX;
             var interval = Math.Abs(max - min);
 
             var randomCoordinates = Enumerable.Range(0, Dimensions)
@@ -79,5 +92,11 @@ namespace Lesson02
 
             return new Individual(randomCoordinates);
         }
+    }
+
+    public enum OptimizationTarget
+    {
+        Minimum,
+        Maximum
     }
 }

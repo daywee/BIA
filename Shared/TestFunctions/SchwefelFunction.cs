@@ -6,7 +6,7 @@ namespace Shared.TestFunctions
     public class SchwefelFunction : FunctionBase
     {
         public override string Name { get; } = "Schwefel";
-        public override double MinX { get; } = 500;
+        public override double MinX { get; } = -500;
         public override double MaxX { get; } = 500;
 
         public override double Calculate(params double[] x)
