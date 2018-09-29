@@ -5,6 +5,8 @@ namespace Shared.TestFunctions
     public class RosenbrockFunction : FunctionBase
     {
         public override string Name { get; } = "Rosenbrock";
+        public override double MinX { get; } = -5;
+        public override double MaxX { get; } = 10;
 
         public override double Calculate(params double[] x)
         {

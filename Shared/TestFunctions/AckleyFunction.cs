@@ -10,6 +10,10 @@ namespace Shared.TestFunctions
         private readonly double _c;
         private readonly FunctionBase SphereFunction = new SphereFunction();
 
+        public override string Name { get; } = "Ackley";
+        public override double MinX { get; } = -32;
+        public override double MaxX { get; } = 32;
+
         public AckleyFunction()
             : this(20, 0.2, 2 * Math.PI)
         {
@@ -21,8 +25,6 @@ namespace Shared.TestFunctions
             _b = b;
             _c = c;
         }
-
-        public override string Name { get; } = "Ackley";
 
         public override double Calculate(params double[] x)
         {
