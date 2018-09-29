@@ -2,6 +2,7 @@
 using ILNumerics.Drawing.Plotting;
 using Shared.ExtensionMethods;
 using Shared.TestFunctions;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,11 +17,14 @@ namespace Lesson02
         private ILPoints _points;
         private ILPoints _bestPoint;
         private readonly Population _population;
+        private Timer _evolveTimer;
+        private int _evolveTimerTicks;
 
         public Form1()
         {
             InitializeComponent();
             InitFunctionsComboBox();
+            _evolveTimer = new Timer { Interval = 250 };
             InitEventListeners();
             _population = new Population(_functions[(string)functionsComboBox.SelectedItem], maxPopulationCount: 50, dimensions: 2);
 
@@ -107,6 +111,25 @@ namespace Lesson02
 
         private void InitEventListeners()
         {
+            void HandleEvolve(object sender, EventArgs args)
+            {
+                _population.Evolve();
+                RenderPopulation();
+                generationLabel.Text = _population.Generation.ToString();
+            }
+
+            _evolveTimer.Tick += (o, e) =>
+            {
+                _evolveTimerTicks++;
+                if (_evolveTimerTicks >= 50)
+                {
+                    _evolveTimer.Stop();
+                    _evolveTimerTicks = 0;
+                }
+
+                HandleEvolve(o, e);
+            };
+
             functionsComboBox.SelectedIndexChanged += (o, e) => _population.OptimizationFunction = _functions[(string)functionsComboBox.SelectedItem];
 
             newPopulationButton.Click += (o, e) =>
@@ -116,12 +139,9 @@ namespace Lesson02
                 generationLabel.Text = _population.Generation.ToString();
             };
 
-            evolveButton.Click += (o, e) =>
-            {
-                _population.Evolve();
-                RenderPopulation();
-                generationLabel.Text = _population.Generation.ToString();
-            };
+            evolveButton.Click += HandleEvolve;
+
+            evolveFiftyTimesButton.Click += (o, e) => { _evolveTimer.Start(); };
         }
     }
 }

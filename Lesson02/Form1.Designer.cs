@@ -34,6 +34,7 @@
             this.newPopulationButton = new System.Windows.Forms.Button();
             this.generationLabel = new System.Windows.Forms.Label();
             this.generationTitleLabel = new System.Windows.Forms.Label();
+            this.evolveFiftyTimesButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // renderContainer
@@ -90,11 +91,21 @@
             this.generationTitleLabel.TabIndex = 5;
             this.generationTitleLabel.Text = "Generation:";
             // 
+            // evolveFiftyTimesButton
+            // 
+            this.evolveFiftyTimesButton.Location = new System.Drawing.Point(418, 13);
+            this.evolveFiftyTimesButton.Name = "evolveFiftyTimesButton";
+            this.evolveFiftyTimesButton.Size = new System.Drawing.Size(75, 23);
+            this.evolveFiftyTimesButton.TabIndex = 6;
+            this.evolveFiftyTimesButton.Text = "Evolve 50x";
+            this.evolveFiftyTimesButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.evolveFiftyTimesButton);
             this.Controls.Add(this.generationTitleLabel);
             this.Controls.Add(this.generationLabel);
             this.Controls.Add(this.newPopulationButton);
@@ -116,6 +127,7 @@
         private System.Windows.Forms.Button newPopulationButton;
         private System.Windows.Forms.Label generationLabel;
         private System.Windows.Forms.Label generationTitleLabel;
+        private System.Windows.Forms.Button evolveFiftyTimesButton;
     }
 }
 
