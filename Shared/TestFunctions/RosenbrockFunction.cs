@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace TestFunctions
+namespace Shared.TestFunctions
 {
     public class RosenbrockFunction : FunctionBase
     {
+        public override string Name { get; } = "Rosenbrock";
+
         public override double Calculate(params double[] x)
         {
             double sum = 0;

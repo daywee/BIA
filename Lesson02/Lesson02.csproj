@@ -83,9 +83,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestFunctions\TestFunctions.csproj">
-      <Project>{E02265F0-5F42-4A03-9F8C-4EE8CBB6833A}</Project>
-      <Name>TestFunctions</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{4907649E-2689-4DE2-B257-053DB8C369DF}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

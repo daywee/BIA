@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace TestFunctions
+namespace Shared.TestFunctions
 {
     public class AckleyFunction : FunctionBase
     {
@@ -21,6 +21,8 @@ namespace TestFunctions
             _b = b;
             _c = c;
         }
+
+        public override string Name { get; } = "Ackley";
 
         public override double Calculate(params double[] x)
         {
