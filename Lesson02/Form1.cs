@@ -130,7 +130,11 @@ namespace Lesson02
                 HandleEvolve(o, e);
             };
 
-            functionsComboBox.SelectedIndexChanged += (o, e) => _population.OptimizationFunction = _functions[(string)functionsComboBox.SelectedItem];
+            functionsComboBox.SelectedIndexChanged += (o, e) =>
+            {
+                _population.OptimizationFunction = _functions[(string)functionsComboBox.SelectedItem];
+                RenderFunction();
+            };
 
             newPopulationButton.Click += (o, e) =>
             {
