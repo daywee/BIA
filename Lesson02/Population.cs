@@ -13,10 +13,12 @@ namespace Lesson02
         public int MaxPopulationCount { get; }
         public List<Individual> CurrentPopulation { get; private set; }
         public int Generation { get; private set; }
-
         public FunctionBase OptimizationFunction { get; set; }
-        private readonly Random _random = new Random();
         public Individual BestIndividual { get; private set; }
+        public double StandardDeviation { get; set; } = 1; // sigma
+        public double Mean { get; set; } = 0; // mu
+
+        private readonly Random _random = new Random();
 
         public Population(FunctionBase optimizationFunction, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
@@ -37,6 +39,20 @@ namespace Lesson02
             Generation = 0;
         }
 
+        public Individual CalculateMean()
+        {
+            var mean = new Individual(Dimensions);
+
+            foreach (var individual in CurrentPopulation)
+                for (int i = 0; i < Dimensions; i++)
+                    mean[i] += individual[i];
+
+            for (int i = 0; i < Dimensions; i++)
+                mean[i] /= CurrentPopulation.Count;
+
+            return mean;
+        }
+
         public void Evolve()
         {
             GeneratePopulation();
@@ -49,7 +65,7 @@ namespace Lesson02
             CurrentPopulation = Enumerable.Range(0, MaxPopulationCount)
                 .Select(_ =>
                 {
-                    var (x1, x2) = _random.NextNormalDistribution2D();
+                    var (x1, x2) = _random.NextNormalDistribution2D(StandardDeviation, Mean);
 
                     // translate by current best individual
                     x1 += BestIndividual[0];

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lesson02
 {
@@ -27,8 +25,8 @@ namespace Lesson02
         {
             get
             {
-                 if (index < 0 || index >= Dimensions)
-                     throw new IndexOutOfRangeException("Index cannot be lesser then zero or greater then dimension");
+                if (index < 0 || index >= Dimensions)
+                    throw new IndexOutOfRangeException("Index cannot be lesser then zero or greater then dimension");
 
                 return _x[index];
             }

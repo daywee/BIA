@@ -5,6 +5,7 @@ using Shared.TestFunctions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Lesson02
@@ -17,14 +18,14 @@ namespace Lesson02
         private ILPoints _points;
         private ILPoints _bestPoint;
         private readonly Population _population;
-        private Timer _evolveTimer;
+        private readonly Timer _evolveTimer;
         private int _evolveTimerTicks;
 
         public Form1()
         {
             InitializeComponent();
             InitFunctionsComboBox();
-            _evolveTimer = new Timer { Interval = 250 };
+            _evolveTimer = new Timer { Interval = 100 };
             InitEventListeners();
             _population = new Population(_functions[(string)functionsComboBox.SelectedItem], maxPopulationCount: 50, dimensions: 2);
 
@@ -63,7 +64,7 @@ namespace Lesson02
                 var individual = _population.CurrentPopulation[i];
                 points[i, 0] = (float)individual[0];
                 points[i, 1] = (float)individual[1];
-                points[i, 2] = 1000;
+                points[i, 2] = (float)_population.OptimizationFunction.Calculate(individual[0], individual[1]) + 1000; // points should be on top
             }
 
             if (_points != null)
@@ -83,7 +84,7 @@ namespace Lesson02
         private void RenderBestIndividual()
         {
             var best = _population.BestIndividual;
-            var bestPoint = new[] { (float)best[0], (float)best[1], 1001 };
+            var bestPoint = new[] { (float)best[0], (float)best[1], (float)_population.OptimizationFunction.Calculate(best[0], best[1]) + 1500 }; // points should be on top
 
             if (_bestPoint != null)
             {
@@ -116,6 +117,8 @@ namespace Lesson02
                 _population.Evolve();
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
+                var mean = _population.CalculateMean();
+                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {_population.OptimizationFunction.Calculate(mean[0], mean[1])}";
             }
 
             _evolveTimer.Tick += (o, e) =>
@@ -145,7 +148,27 @@ namespace Lesson02
 
             evolveButton.Click += HandleEvolve;
 
-            evolveFiftyTimesButton.Click += (o, e) => { _evolveTimer.Start(); };
+            evolveFiftyTimesButton.Click += (o, e) =>
+            {
+                if (_evolveTimer.Enabled)
+                    _evolveTimer.Stop();
+                else
+                    _evolveTimer.Start();
+            };
+
+            standardDeviationTrackBar.ValueChanged += (o, e) =>
+            {
+                var x = standardDeviationTrackBar.Value / 10f;
+                _population.StandardDeviation = x;
+                standardDeviationValueLabel.Text = x.ToString(CultureInfo.InvariantCulture);
+            };
+
+            meanTrackBar.ValueChanged += (o, e) =>
+            {
+                var x = meanTrackBar.Value / 10f;
+                _population.Mean = x;
+                meanValueLabel.Text = x.ToString(CultureInfo.InvariantCulture);
+            };
         }
     }
 }
