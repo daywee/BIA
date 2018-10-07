@@ -9,6 +9,7 @@ namespace Lesson03
     {
         public double Alpha { get; }
         public double Temperature { get; private set; }
+        public int MaxPopulation { get; } = 1;
 
         private readonly Random _random = new Random();
 

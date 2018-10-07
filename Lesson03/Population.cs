@@ -20,11 +20,11 @@ namespace Lesson03
 
         private readonly Random _random = new Random();
 
-        public Population(FunctionBase optimizationFunction, IAlgorithm algorithm, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
+        public Population(FunctionBase optimizationFunction, IAlgorithm algorithm, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
             OptimizationFunction = optimizationFunction;
             Algorithm = algorithm;
-            MaxPopulationCount = maxPopulationCount;
+            MaxPopulationCount = algorithm.MaxPopulation;
             Dimensions = dimensions;
             OptimizationTarget = optimizationTarget;
             CreateNewPopulation();

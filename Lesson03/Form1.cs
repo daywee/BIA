@@ -28,7 +28,7 @@ namespace Lesson03
             _evolveTimer = new Timer { Interval = 100 };
             InitEventListeners();
             _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 50, dimensions: 2);
+                GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
 
             _plotCube = new ILPlotCube();
             var scene = new ILScene { _plotCube };
@@ -144,14 +144,14 @@ namespace Lesson03
             functionsComboBox.SelectedIndexChanged += (o, e) =>
             {
                 _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 1, dimensions: 2);
+                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
                 RenderFunction();
             };
 
             algorithmsComboBox.SelectedIndexChanged += (o, e) =>
             {
                 _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 1, dimensions: 2);
+                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
                 RenderFunction();
             };
 

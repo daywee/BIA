@@ -9,6 +9,8 @@ namespace Lesson03
     {
         private readonly Random _random = new Random();
 
+        public int MaxPopulation { get; } = 50;
+
         public List<Individual> GeneratePopulation(Population population)
         {
             return Enumerable.Range(0, population.MaxPopulationCount)
