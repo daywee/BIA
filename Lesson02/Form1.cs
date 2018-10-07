@@ -100,7 +100,7 @@ namespace Lesson02
 
         private void InitFunctionsComboBox()
         {
-            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction() }
+            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction() }
                 .ForEach(func =>
                 {
                     _functions.Add(func.Name, func);

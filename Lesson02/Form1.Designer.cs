@@ -58,6 +58,7 @@
             // 
             // functionsComboBox
             // 
+            this.functionsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.functionsComboBox.FormattingEnabled = true;
             this.functionsComboBox.Location = new System.Drawing.Point(13, 13);
             this.functionsComboBox.Name = "functionsComboBox";

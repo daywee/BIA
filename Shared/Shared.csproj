@@ -45,6 +45,7 @@
     <Compile Include="ExtensionMethods\RandomExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFunctions\AckleyFunction.cs" />
+    <Compile Include="TestFunctions\BoothFunction.cs" />
     <Compile Include="TestFunctions\FunctionBase.cs" />
     <Compile Include="TestFunctions\RosenbrockFunction.cs" />
     <Compile Include="TestFunctions\SchwefelFunction.cs" />
