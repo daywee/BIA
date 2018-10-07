@@ -22,9 +22,6 @@ namespace Lesson02
 
         public Population(FunctionBase optimizationFunction, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
-            if (dimensions != 2)
-                throw new ArgumentOutOfRangeException(nameof(dimensions), "Only 2 dimensions are currently supported");
-
             OptimizationFunction = optimizationFunction;
             MaxPopulationCount = maxPopulationCount;
             Dimensions = dimensions;
@@ -65,13 +62,11 @@ namespace Lesson02
             CurrentPopulation = Enumerable.Range(0, MaxPopulationCount)
                 .Select(_ =>
                 {
-                    var (x1, x2) = _random.NextNormalDistribution2D(StandardDeviation, Mean);
+                    var x = _random.NextNormalDistribution(Dimensions, StandardDeviation, Mean);
+                    Enumerable.Range(0, Dimensions)
+                        .ForEach(dimension => x[dimension] += BestIndividual[dimension]); // translate by current best individual
 
-                    // translate by current best individual
-                    x1 += BestIndividual[0];
-                    x2 += BestIndividual[1];
-
-                    return new Individual(Dimensions) { [0] = x1, [1] = x2 };
+                    return new Individual(x);
                 })
                 .ToList();
         }
