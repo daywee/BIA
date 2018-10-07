@@ -17,7 +17,7 @@ namespace Lesson02
         private ILSurface _currentSurface;
         private ILPoints _points;
         private ILPoints _bestPoint;
-        private readonly Population _population;
+        private Population _population;
         private readonly Timer _evolveTimer;
         private int _evolveTimerTicks;
 
@@ -121,21 +121,25 @@ namespace Lesson02
                 meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {_population.OptimizationFunction.Calculate(mean[0], mean[1])}";
             }
 
+            void HandleAutoEvolutionStopped()
+            {
+                _evolveTimer.Stop();
+                _evolveTimerTicks = 0;
+                evolveFiftyTimesButton.Text = "Evolve 50x";
+            }
+
             _evolveTimer.Tick += (o, e) =>
             {
                 _evolveTimerTicks++;
                 if (_evolveTimerTicks >= 50)
-                {
-                    _evolveTimer.Stop();
-                    _evolveTimerTicks = 0;
-                }
+                   HandleAutoEvolutionStopped();
 
                 HandleEvolve(o, e);
             };
 
             functionsComboBox.SelectedIndexChanged += (o, e) =>
             {
-                _population.OptimizationFunction = _functions[(string)functionsComboBox.SelectedItem];
+                _population = new Population(_functions[(string)functionsComboBox.SelectedItem], maxPopulationCount: 50, dimensions: 2);
                 RenderFunction();
             };
 
@@ -151,9 +155,14 @@ namespace Lesson02
             evolveFiftyTimesButton.Click += (o, e) =>
             {
                 if (_evolveTimer.Enabled)
-                    _evolveTimer.Stop();
+                {
+                   HandleAutoEvolutionStopped();
+                }
                 else
+                {
                     _evolveTimer.Start();
+                    evolveFiftyTimesButton.Text = "Stop";
+                }
             };
 
             standardDeviationTrackBar.ValueChanged += (o, e) =>

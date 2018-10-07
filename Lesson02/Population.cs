@@ -13,7 +13,7 @@ namespace Lesson02
         public int MaxPopulationCount { get; }
         public List<Individual> CurrentPopulation { get; private set; }
         public int Generation { get; private set; }
-        public FunctionBase OptimizationFunction { get; set; }
+        public FunctionBase OptimizationFunction { get; }
         public Individual BestIndividual { get; private set; }
         public double StandardDeviation { get; set; } = 1; // sigma
         public double Mean { get; set; } = 0; // mu
