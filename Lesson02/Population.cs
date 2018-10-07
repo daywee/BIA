@@ -47,6 +47,8 @@ namespace Lesson02
             for (int i = 0; i < Dimensions; i++)
                 mean[i] /= CurrentPopulation.Count;
 
+            mean.Result = OptimizationFunction.Calculate(mean.ToArray());
+
             return mean;
         }
 
@@ -66,26 +68,22 @@ namespace Lesson02
                     Enumerable.Range(0, Dimensions)
                         .ForEach(dimension => x[dimension] += BestIndividual[dimension]); // translate by current best individual
 
-                    return new Individual(x);
+                    return new Individual(x, OptimizationFunction.Calculate(x));
                 })
                 .ToList();
         }
 
         private void SetBestIndividual()
         {
-            Individual bestIndividual = CurrentPopulation.First();
-            double bestValue = OptimizationFunction.Calculate(bestIndividual[0], bestIndividual[1]);
-
+            var bestIndividual = CurrentPopulation.First();
             for (int i = 1; i < MaxPopulationCount; i++)
             {
-                Individual currentIndividual = CurrentPopulation[i];
-                double currentValue = OptimizationFunction.Calculate(currentIndividual[0], currentIndividual[1]);
+                var currentIndividual = CurrentPopulation[i];
 
-                if ((OptimizationTarget == OptimizationTarget.Maximum && currentValue > bestValue)
-                    || (OptimizationTarget == OptimizationTarget.Minimum && currentValue < bestValue))
+                if ((OptimizationTarget == OptimizationTarget.Maximum && currentIndividual.Result > bestIndividual.Result)
+                    || (OptimizationTarget == OptimizationTarget.Minimum && currentIndividual.Result < bestIndividual.Result))
                 {
                     bestIndividual = currentIndividual;
-                    bestValue = currentValue;
                 }
             }
 
@@ -99,9 +97,10 @@ namespace Lesson02
             var interval = Math.Abs(max - min);
 
             var randomCoordinates = Enumerable.Range(0, Dimensions)
-                .Select(e => _random.NextDouble() * interval - max);
+                .Select(e => _random.NextDouble() * interval - max)
+                .ToArray();
 
-            return new Individual(randomCoordinates);
+            return new Individual(randomCoordinates, OptimizationFunction.Calculate(randomCoordinates));
         }
     }
 

@@ -64,7 +64,7 @@ namespace Lesson02
                 var individual = _population.CurrentPopulation[i];
                 points[i, 0] = (float)individual[0];
                 points[i, 1] = (float)individual[1];
-                points[i, 2] = (float)_population.OptimizationFunction.Calculate(individual[0], individual[1]) + 1000; // points should be on top
+                points[i, 2] = (float)individual.Result + 1000; // render point higher then function
             }
 
             if (_points != null)
@@ -84,7 +84,7 @@ namespace Lesson02
         private void RenderBestIndividual()
         {
             var best = _population.BestIndividual;
-            var bestPoint = new[] { (float)best[0], (float)best[1], (float)_population.OptimizationFunction.Calculate(best[0], best[1]) + 1500 }; // points should be on top
+            var bestPoint = new[] { (float)best[0], (float)best[1], (float)best.Result + 1500 }; // render point higher then function and other points
 
             if (_bestPoint != null)
             {
@@ -118,7 +118,7 @@ namespace Lesson02
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
-                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {_population.OptimizationFunction.Calculate(mean[0], mean[1])}";
+                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {mean.Result}";
             }
 
             void HandleAutoEvolutionStopped()

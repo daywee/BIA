@@ -7,6 +7,8 @@ namespace Lesson02
     public class Individual
     {
         public int Dimensions { get; }
+        public double Result { get; set; }
+
         private readonly double[] _x;
 
         public Individual(int dimensions)
@@ -19,6 +21,12 @@ namespace Lesson02
         {
             _x = coordinates.ToArray();
             Dimensions = _x.Length;
+        }
+
+        public Individual(IEnumerable<double> coordinates, double result)
+            : this(coordinates)
+        {
+            Result = result;
         }
 
         public double this[int index]
@@ -38,5 +46,7 @@ namespace Lesson02
                 _x[index] = value;
             }
         }
+
+        public double[] ToArray() => _x.ToArray();
     }
 }
