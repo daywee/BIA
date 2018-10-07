@@ -42,6 +42,7 @@
             this.meanLabel2 = new System.Windows.Forms.Label();
             this.standardDeviationValueLabel = new System.Windows.Forms.Label();
             this.meanValueLabel = new System.Windows.Forms.Label();
+            this.algorithmsComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.standardDeviationTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.meanTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +68,7 @@
             // 
             // evolveButton
             // 
-            this.evolveButton.Location = new System.Drawing.Point(337, 13);
+            this.evolveButton.Location = new System.Drawing.Point(536, 13);
             this.evolveButton.Name = "evolveButton";
             this.evolveButton.Size = new System.Drawing.Size(75, 23);
             this.evolveButton.TabIndex = 2;
@@ -76,7 +77,7 @@
             // 
             // newPopulationButton
             // 
-            this.newPopulationButton.Location = new System.Drawing.Point(212, 13);
+            this.newPopulationButton.Location = new System.Drawing.Point(411, 13);
             this.newPopulationButton.Name = "newPopulationButton";
             this.newPopulationButton.Size = new System.Drawing.Size(119, 23);
             this.newPopulationButton.TabIndex = 3;
@@ -86,7 +87,7 @@
             // generationLabel
             // 
             this.generationLabel.AutoSize = true;
-            this.generationLabel.Location = new System.Drawing.Point(752, 16);
+            this.generationLabel.Location = new System.Drawing.Point(951, 16);
             this.generationLabel.Name = "generationLabel";
             this.generationLabel.Size = new System.Drawing.Size(13, 13);
             this.generationLabel.TabIndex = 4;
@@ -95,7 +96,7 @@
             // generationTitleLabel
             // 
             this.generationTitleLabel.AutoSize = true;
-            this.generationTitleLabel.Location = new System.Drawing.Point(684, 16);
+            this.generationTitleLabel.Location = new System.Drawing.Point(883, 16);
             this.generationTitleLabel.Name = "generationTitleLabel";
             this.generationTitleLabel.Size = new System.Drawing.Size(62, 13);
             this.generationTitleLabel.TabIndex = 5;
@@ -103,7 +104,7 @@
             // 
             // evolveFiftyTimesButton
             // 
-            this.evolveFiftyTimesButton.Location = new System.Drawing.Point(418, 13);
+            this.evolveFiftyTimesButton.Location = new System.Drawing.Point(617, 13);
             this.evolveFiftyTimesButton.Name = "evolveFiftyTimesButton";
             this.evolveFiftyTimesButton.Size = new System.Drawing.Size(75, 23);
             this.evolveFiftyTimesButton.TabIndex = 6;
@@ -113,7 +114,7 @@
             // meanLabel
             // 
             this.meanLabel.AutoSize = true;
-            this.meanLabel.Location = new System.Drawing.Point(684, 36);
+            this.meanLabel.Location = new System.Drawing.Point(883, 36);
             this.meanLabel.Name = "meanLabel";
             this.meanLabel.Size = new System.Drawing.Size(34, 13);
             this.meanLabel.TabIndex = 7;
@@ -179,11 +180,21 @@
             this.meanValueLabel.TabIndex = 13;
             this.meanValueLabel.Text = "0";
             // 
+            // algorithmsComboBox
+            // 
+            this.algorithmsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.algorithmsComboBox.FormattingEnabled = true;
+            this.algorithmsComboBox.Location = new System.Drawing.Point(212, 13);
+            this.algorithmsComboBox.Name = "algorithmsComboBox";
+            this.algorithmsComboBox.Size = new System.Drawing.Size(193, 21);
+            this.algorithmsComboBox.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1460, 758);
+            this.Controls.Add(this.algorithmsComboBox);
             this.Controls.Add(this.meanValueLabel);
             this.Controls.Add(this.standardDeviationValueLabel);
             this.Controls.Add(this.meanLabel2);
@@ -223,6 +234,7 @@
         private System.Windows.Forms.Label meanLabel2;
         private System.Windows.Forms.Label standardDeviationValueLabel;
         private System.Windows.Forms.Label meanValueLabel;
+        private System.Windows.Forms.ComboBox algorithmsComboBox;
     }
 }
 

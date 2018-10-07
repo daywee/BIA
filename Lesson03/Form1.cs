@@ -27,7 +27,8 @@ namespace Lesson03
             InitFunctionsComboBox();
             _evolveTimer = new Timer { Interval = 100 };
             InitEventListeners();
-            _population = new Population(_functions[(string)functionsComboBox.SelectedItem], maxPopulationCount: 50, dimensions: 2);
+            _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
+                GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 50, dimensions: 2);
 
             _plotCube = new ILPlotCube();
             var scene = new ILScene { _plotCube };
@@ -107,7 +108,10 @@ namespace Lesson03
                     functionsComboBox.Items.Add(func.Name);
                 });
             functionsComboBox.SelectedIndex = 0;
-            functionsComboBox.SelectedIndexChanged += (o, e) => RenderFunction();
+
+            new[] { "Hill Climbing", "Simulated Annealing" }
+                .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
+            algorithmsComboBox.SelectedIndex = 0;
         }
 
         private void InitEventListeners()
@@ -139,7 +143,15 @@ namespace Lesson03
 
             functionsComboBox.SelectedIndexChanged += (o, e) =>
             {
-                _population = new Population(_functions[(string)functionsComboBox.SelectedItem], maxPopulationCount: 50, dimensions: 2);
+                _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
+                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 1, dimensions: 2);
+                RenderFunction();
+            };
+
+            algorithmsComboBox.SelectedIndexChanged += (o, e) =>
+            {
+                _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
+                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), maxPopulationCount: 1, dimensions: 2);
                 RenderFunction();
             };
 
@@ -178,6 +190,19 @@ namespace Lesson03
                 _population.Mean = x;
                 meanValueLabel.Text = x.ToString(CultureInfo.InvariantCulture);
             };
+        }
+
+        private IAlgorithm GetAlgorithm(string name)
+        {
+            switch (name)
+            {
+                case "Hill Climbing":
+                    return new HillClimbingAlgorithm();
+                case "Simulated Annealing":
+                    return new SimulatedAnnealingAlgorithm();
+                default:
+                    throw new InvalidOperationException($"Algorithm '{name}' is not supported.");
+            }
         }
     }
 }

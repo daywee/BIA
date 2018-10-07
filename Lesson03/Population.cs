@@ -1,5 +1,4 @@
-﻿using Shared.ExtensionMethods;
-using Shared.TestFunctions;
+﻿using Shared.TestFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +13,17 @@ namespace Lesson03
         public List<Individual> CurrentPopulation { get; private set; }
         public int Generation { get; private set; }
         public FunctionBase OptimizationFunction { get; }
+        public IAlgorithm Algorithm { get; }
         public Individual BestIndividual { get; private set; }
         public double StandardDeviation { get; set; } = 1; // sigma
         public double Mean { get; set; } = 0; // mu
 
         private readonly Random _random = new Random();
 
-        public Population(FunctionBase optimizationFunction, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
+        public Population(FunctionBase optimizationFunction, IAlgorithm algorithm, int maxPopulationCount, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
             OptimizationFunction = optimizationFunction;
+            Algorithm = algorithm;
             MaxPopulationCount = maxPopulationCount;
             Dimensions = dimensions;
             OptimizationTarget = optimizationTarget;
@@ -61,16 +62,7 @@ namespace Lesson03
 
         private void GeneratePopulation()
         {
-            CurrentPopulation = Enumerable.Range(0, MaxPopulationCount)
-                .Select(_ =>
-                {
-                    var x = _random.NextNormalDistribution(Dimensions, StandardDeviation, Mean);
-                    Enumerable.Range(0, Dimensions)
-                        .ForEach(dimension => x[dimension] += BestIndividual[dimension]); // translate by current best individual
-
-                    return new Individual(x, OptimizationFunction.Calculate(x));
-                })
-                .ToList();
+            CurrentPopulation = Algorithm.GeneratePopulation(this);
         }
 
         private void SetBestIndividual()
