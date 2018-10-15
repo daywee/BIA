@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Lesson04
@@ -24,6 +25,7 @@ namespace Lesson04
 
         public List<Individual> GeneratePopulation(Population population)
         {
+            population.AdditionalIndividualsToRender.Clear();
             var leader = population.BestIndividual;
             var others = population.CurrentPopulation.Except(new[] { leader });
             var newPopulation = new List<Individual>();
@@ -39,10 +41,13 @@ namespace Lesson04
                     individualSteps.Add(individualStep);
                 }
 
+                List<Individual> orderedIndividualSteps;
                 if (population.OptimizationTarget == OptimizationTarget.Minimum)
-                    newPopulation.Add(individualSteps.OrderBy(e => e.Cost).First());
+                    orderedIndividualSteps = individualSteps.OrderBy(e => e.Cost).ToList();
                 else
-                    newPopulation.Add(individualSteps.OrderByDescending(e => e.Cost).First());
+                    orderedIndividualSteps = individualSteps.OrderByDescending(e => e.Cost).ToList();
+                newPopulation.Add(orderedIndividualSteps.First());
+                population.AdditionalIndividualsToRender.AddRange(orderedIndividualSteps.Skip(1));
             }
 
             newPopulation.Add(leader);

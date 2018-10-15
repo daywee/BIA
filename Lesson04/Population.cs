@@ -11,6 +11,7 @@ namespace Lesson04
         public OptimizationTarget OptimizationTarget { get; }
         public int MaxPopulationCount { get; }
         public List<Individual> CurrentPopulation { get; private set; }
+        public List<Individual> AdditionalIndividualsToRender { get; set; } = new List<Individual>();
         public int Generation { get; private set; }
         public FunctionBase OptimizationFunction { get; }
         public IAlgorithm Algorithm { get; }

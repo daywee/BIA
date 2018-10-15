@@ -16,6 +16,7 @@ namespace Lesson04
         private readonly Dictionary<string, FunctionBase> _functions = new Dictionary<string, FunctionBase>();
         private ILSurface _currentSurface;
         private ILPoints _points;
+        private ILPoints _additionalPoints;
         private ILPoints _bestPoint;
         private Population _population;
         private readonly Timer _evolveTimer;
@@ -79,7 +80,31 @@ namespace Lesson04
             _plotCube.Add(_points);
 
             RenderBestIndividual();
+            RenderAdditionalPoints();
             renderContainer.Refresh();
+        }
+
+        private void RenderAdditionalPoints()
+        {
+            var points = new float[_population.AdditionalIndividualsToRender.Count, _population.Dimensions + 1];
+            for (var i = 0; i < _population.AdditionalIndividualsToRender.Count; i++)
+            {
+                var individual = _population.AdditionalIndividualsToRender[i];
+                points[i, 0] = (float)individual[0];
+                points[i, 1] = (float)individual[1];
+                points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
+            }
+
+            if (_additionalPoints != null)
+            {
+                _plotCube.Remove(_additionalPoints);
+                _additionalPoints.Dispose();
+            }
+
+            _additionalPoints = new ILPoints();
+            _additionalPoints.Color = Color.Yellow;
+            _additionalPoints.Positions.Update(points);
+            _plotCube.Add(_additionalPoints);
         }
 
         private void RenderBestIndividual()
@@ -122,7 +147,7 @@ namespace Lesson04
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
-                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {mean.Cost}";
+                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, cost: {mean.Cost}";
             }
 
             void HandleAutoEvolutionStopped()
