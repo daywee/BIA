@@ -14,3 +14,5 @@ alg:
   pro kazdou dimenzi NextDouble() < PRT tak 1 else 0
 2. skaceme smerem k leadrovi asi 27 (3/.11)
   x1 = x1 + (xc - x1) * t * PRTvec
+
+dodelat ohraniceni funkce, aby individua nevyskakovaly ven
