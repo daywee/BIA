@@ -25,7 +25,7 @@ namespace Lesson03
         {
             InitializeComponent();
             InitFunctionsComboBox();
-            _evolveTimer = new Timer { Interval = 100 };
+            _evolveTimer = new Timer { Interval = 5 };
             InitEventListeners();
             _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
                 GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
@@ -65,7 +65,7 @@ namespace Lesson03
                 var individual = _population.CurrentPopulation[i];
                 points[i, 0] = (float)individual[0];
                 points[i, 1] = (float)individual[1];
-                points[i, 2] = (float)individual.Result + 1000; // render point higher then function
+                points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
             }
 
             if (_points != null)
@@ -85,7 +85,7 @@ namespace Lesson03
         private void RenderBestIndividual()
         {
             var best = _population.BestIndividual;
-            var bestPoint = new[] { (float)best[0], (float)best[1], (float)best.Result + 1500 }; // render point higher then function and other points
+            var bestPoint = new[] { (float)best[0], (float)best[1], (float)best.Cost + 1500 }; // render point higher then function and other points
 
             if (_bestPoint != null)
             {
@@ -122,7 +122,7 @@ namespace Lesson03
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
-                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {mean.Result}";
+                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, z: {mean.Cost}";
             }
 
             void HandleAutoEvolutionStopped()
@@ -135,7 +135,7 @@ namespace Lesson03
             _evolveTimer.Tick += (o, e) =>
             {
                 _evolveTimerTicks++;
-                if (_evolveTimerTicks >= 50)
+                if (_evolveTimerTicks >= 1000)
                     HandleAutoEvolutionStopped();
 
                 HandleEvolve(o, e);

@@ -48,7 +48,7 @@ namespace Lesson03
             for (int i = 0; i < Dimensions; i++)
                 mean[i] /= CurrentPopulation.Count;
 
-            mean.Result = OptimizationFunction.Calculate(mean.ToArray());
+            mean.Cost = OptimizationFunction.Calculate(mean.ToArray());
 
             return mean;
         }
@@ -72,8 +72,8 @@ namespace Lesson03
             {
                 var currentIndividual = CurrentPopulation[i];
 
-                if ((OptimizationTarget == OptimizationTarget.Maximum && currentIndividual.Result > bestIndividual.Result)
-                    || (OptimizationTarget == OptimizationTarget.Minimum && currentIndividual.Result < bestIndividual.Result))
+                if ((OptimizationTarget == OptimizationTarget.Maximum && currentIndividual.Cost > bestIndividual.Cost)
+                    || (OptimizationTarget == OptimizationTarget.Minimum && currentIndividual.Cost < bestIndividual.Cost))
                 {
                     bestIndividual = currentIndividual;
                 }

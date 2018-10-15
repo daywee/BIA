@@ -7,7 +7,7 @@ namespace Lesson03
     public class Individual
     {
         public int Dimensions { get; }
-        public double Result { get; set; }
+        public double Cost { get; set; }
 
         private readonly double[] _x;
 
@@ -23,10 +23,10 @@ namespace Lesson03
             Dimensions = _x.Length;
         }
 
-        public Individual(IEnumerable<double> coordinates, double result)
+        public Individual(IEnumerable<double> coordinates, double cost)
             : this(coordinates)
         {
-            Result = result;
+            Cost = cost;
         }
 
         public double this[int index]

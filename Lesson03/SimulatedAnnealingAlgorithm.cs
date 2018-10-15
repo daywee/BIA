@@ -29,8 +29,8 @@ namespace Lesson03
 
             var newBest = new Individual(x, population.OptimizationFunction.Calculate(x));
 
-            if ((population.OptimizationTarget == OptimizationTarget.Maximum && newBest.Result > population.BestIndividual.Result)
-                || (population.OptimizationTarget == OptimizationTarget.Minimum && newBest.Result < population.BestIndividual.Result))
+            if ((population.OptimizationTarget == OptimizationTarget.Maximum && newBest.Cost > population.BestIndividual.Cost)
+                || (population.OptimizationTarget == OptimizationTarget.Minimum && newBest.Cost < population.BestIndividual.Cost))
             {
                 result = newBest;
             }
@@ -46,7 +46,7 @@ namespace Lesson03
         private bool ShouldMoveToWorseSolution(Individual old, Individual @new)
         {
             double r = _random.NextDouble();
-            double delta = @new.Result - old.Result;
+            double delta = @new.Cost - old.Cost;
 
             return r < Math.Pow(Math.E, -delta / Temperature);
         }

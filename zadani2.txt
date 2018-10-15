@@ -1,0 +1,29 @@
+30x pro kazdou funkci spustime obe metody
+metody zprumerujeme a porovnavame kde je lepsi hodnota pro dany prumer
+prvni populace by mela byt stejna
+pro dve dimenze muzu funkci pro evaulaci zavolat 2000
+
+na zacatek zvolim t0 = 2000
+vygeneruju random x0 = [3,3] (fx=18) (dejong)
+vygeneruju x1
+  pokud je lepsi, tak ho beru (stane se novym vychozim bodem) a vynasobim teplotu alfou (0.99)
+pokud je horsi
+  random mezi <0,1>
+  r< e na minus delta f lomeno T
+  pokud je podminka pravdiva, tak ho beru
+
+teplotu snizuju pri kazde iteraci
+
+pridat k individual fitness (vysledek)
+dodelat dalsi funkci
+
+
+vykreslit na graf kde na x bude iterace a na y bude f(x)
+  krivka by mela behat nahoru a dolu
+
+
+na zkousku
+lokalni prohledavani
+1. tabu search
+2. hill climbing
+3. simulated annealing
