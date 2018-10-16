@@ -37,6 +37,8 @@ namespace Lesson04
                 .Select(_ => GetRandomIndividual())
                 .ToList();
 
+            ApplyBounds(CurrentPopulation);
+
             if (OptimizationTarget == OptimizationTarget.Minimum)
                 BestIndividual = CurrentPopulation.OrderBy(e => e.Cost).First();
             else
@@ -71,6 +73,22 @@ namespace Lesson04
         private void GeneratePopulation()
         {
             CurrentPopulation = Algorithm.GeneratePopulation(this);
+            ApplyBounds(CurrentPopulation);
+            ApplyBounds(AdditionalIndividualsToRender);
+        }
+
+        private void ApplyBounds(IEnumerable<Individual> population)
+        {
+            foreach (var individual in population)
+            {
+                for (int i = 0; i < Dimensions; i++)
+                {
+                    if (individual[i] < OptimizationFunction.MinX)
+                        individual[i] = OptimizationFunction.MinX;
+                    else if (individual[i] > OptimizationFunction.MaxX)
+                        individual[i] = OptimizationFunction.MaxX;
+                }
+            }
         }
 
         private void SetBestIndividual()
