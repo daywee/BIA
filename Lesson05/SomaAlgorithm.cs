@@ -34,9 +34,9 @@ namespace Lesson05
                 var individualSteps = new List<Individual>();
                 for (double t = 0; t < PathLength; t += StepSize)
                 {
-                    var moveVector = leader - other;
-                    var individualStep = other + moveVector * t * new Individual(GeneratePrtVector(population.Dimensions));
-                    individualStep.Cost = population.OptimizationFunction.Calculate(individualStep.ToArray());
+                    var moveVector = leader.Position - other.Position;
+                    var individualStepVector = other.Position + moveVector * t * GeneratePrtVector(population.Dimensions);
+                    var individualStep = new Individual(individualStepVector, population.OptimizationFunction.Calculate(individualStepVector.ToArray()));
                     individualSteps.Add(individualStep);
                 }
 
@@ -54,11 +54,12 @@ namespace Lesson05
             return newPopulation;
         }
 
-        private double[] GeneratePrtVector(int dimensions)
+        private Vector GeneratePrtVector(int dimensions)
         {
-            return Enumerable.Range(0, dimensions)
-                .Select(i => _random.NextDouble() < Prt ? (double)1 : 0)
-                .ToArray();
+            var vector = Enumerable.Range(0, dimensions)
+                .Select(i => _random.NextDouble() < Prt ? (double) 1 : 0);
+
+            return new Vector(vector);
         }
     }
 }

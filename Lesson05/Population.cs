@@ -53,12 +53,12 @@ namespace Lesson05
 
             foreach (var individual in CurrentPopulation)
                 for (int i = 0; i < Dimensions; i++)
-                    mean[i] += individual[i];
+                    mean.Position[i] += individual.Position[i];
 
             for (int i = 0; i < Dimensions; i++)
-                mean[i] /= CurrentPopulation.Count;
+                mean.Position[i] /= CurrentPopulation.Count;
 
-            mean.Cost = OptimizationFunction.Calculate(mean.ToArray());
+            mean.Cost = OptimizationFunction.Calculate(mean.Position.ToArray());
 
             return mean;
         }
@@ -83,10 +83,10 @@ namespace Lesson05
             {
                 for (int i = 0; i < Dimensions; i++)
                 {
-                    if (individual[i] < OptimizationFunction.MinX)
-                        individual[i] = OptimizationFunction.MinX;
-                    else if (individual[i] > OptimizationFunction.MaxX)
-                        individual[i] = OptimizationFunction.MaxX;
+                    if (individual.Position[i] < OptimizationFunction.MinX)
+                        individual.Position[i] = OptimizationFunction.MinX;
+                    else if (individual.Position[i] > OptimizationFunction.MaxX)
+                        individual.Position[i] = OptimizationFunction.MaxX;
                 }
             }
         }

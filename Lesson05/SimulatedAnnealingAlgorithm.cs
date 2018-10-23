@@ -24,11 +24,10 @@ namespace Lesson05
         {
             Individual result;
 
-            var x = _random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean);
-            Enumerable.Range(0, population.Dimensions)
-                .ForEach(dimension => x[dimension] += population.BestIndividual[dimension]); // translate by current best individual
+            var x = new Vector(_random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean));
+            x += population.BestIndividual.Position; // translate by current best individual
 
-            var newBest = new Individual(x, population.OptimizationFunction.Calculate(x));
+            var newBest = new Individual(x, population.OptimizationFunction.Calculate(x.ToArray()));
 
             if ((population.OptimizationTarget == OptimizationTarget.Maximum && newBest.Cost > population.BestIndividual.Cost)
                 || (population.OptimizationTarget == OptimizationTarget.Minimum && newBest.Cost < population.BestIndividual.Cost))

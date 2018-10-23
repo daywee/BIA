@@ -17,11 +17,10 @@ namespace Lesson05
             return Enumerable.Range(0, population.MaxPopulationCount)
                 .Select(_ =>
                 {
-                    var x = _random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean);
-                    Enumerable.Range(0, population.Dimensions)
-                        .ForEach(dimension => x[dimension] += population.BestIndividual[dimension]); // translate by current best individual
-
-                    return new Individual(x, population.OptimizationFunction.Calculate(x));
+                    var x = new Vector(_random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean));
+                    x += population.BestIndividual.Position; // translate by current best individual
+                    
+                    return new Individual(x, population.OptimizationFunction.Calculate(x.ToArray()));
                 })
                 .ToList();
         }

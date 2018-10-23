@@ -64,8 +64,8 @@ namespace Lesson05
             for (var i = 0; i < _population.CurrentPopulation.Count; i++)
             {
                 var individual = _population.CurrentPopulation[i];
-                points[i, 0] = (float)individual[0];
-                points[i, 1] = (float)individual[1];
+                points[i, 0] = (float)individual.Position[0];
+                points[i, 1] = (float)individual.Position[1];
                 points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
             }
 
@@ -90,8 +90,8 @@ namespace Lesson05
             for (var i = 0; i < _population.AdditionalIndividualsToRender.Count; i++)
             {
                 var individual = _population.AdditionalIndividualsToRender[i];
-                points[i, 0] = (float)individual[0];
-                points[i, 1] = (float)individual[1];
+                points[i, 0] = (float)individual.Position[0];
+                points[i, 1] = (float)individual.Position[1];
                 points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
             }
 
@@ -110,7 +110,7 @@ namespace Lesson05
         private void RenderBestIndividual()
         {
             var best = _population.BestIndividual;
-            var bestPoint = new[] { (float)best[0], (float)best[1], (float)best.Cost + 1500 }; // render point higher then function and other points
+            var bestPoint = new[] { (float)best.Position[0], (float)best.Position[1], (float)best.Cost + 1500 }; // render point higher then function and other points
 
             if (_bestPoint != null)
             {
@@ -147,7 +147,7 @@ namespace Lesson05
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
-                meanLabel.Text = $"x: {mean[0]} y: {mean[1]}, cost: {mean.Cost}";
+                meanLabel.Text = $"x: {mean.Position[0]} y: {mean.Position[1]}, cost: {mean.Cost}";
             }
 
             void HandleAutoEvolutionStopped()
