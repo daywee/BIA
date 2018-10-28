@@ -142,7 +142,9 @@ namespace Lesson05
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
-                meanLabel.Text = $"x: {mean.Position[0]} y: {mean.Position[1]}, cost: {mean.Cost}";
+                var best = _population.BestIndividual;
+                meanLabel.Text = $"Mean x: {mean.Position[0]} y: {mean.Position[1]}, cost: {mean.Cost}";
+                bestIndividualLabel.Text = $"Best x: {best.Position[0]} y: {best.Position[1]}, cost: {best.Cost}";
             }
 
             void HandleAutoEvolutionStopped()

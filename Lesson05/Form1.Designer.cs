@@ -43,6 +43,7 @@
             this.standardDeviationValueLabel = new System.Windows.Forms.Label();
             this.meanValueLabel = new System.Windows.Forms.Label();
             this.algorithmsComboBox = new System.Windows.Forms.ComboBox();
+            this.bestIndividualLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.standardDeviationTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.meanTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -189,11 +190,21 @@
             this.algorithmsComboBox.Size = new System.Drawing.Size(193, 21);
             this.algorithmsComboBox.TabIndex = 14;
             // 
+            // bestIndividualLabel
+            // 
+            this.bestIndividualLabel.AutoSize = true;
+            this.bestIndividualLabel.Location = new System.Drawing.Point(883, 59);
+            this.bestIndividualLabel.Name = "bestIndividualLabel";
+            this.bestIndividualLabel.Size = new System.Drawing.Size(28, 13);
+            this.bestIndividualLabel.TabIndex = 15;
+            this.bestIndividualLabel.Text = "Best";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1460, 758);
+            this.Controls.Add(this.bestIndividualLabel);
             this.Controls.Add(this.algorithmsComboBox);
             this.Controls.Add(this.meanValueLabel);
             this.Controls.Add(this.standardDeviationValueLabel);
@@ -235,6 +246,7 @@
         private System.Windows.Forms.Label standardDeviationValueLabel;
         private System.Windows.Forms.Label meanValueLabel;
         private System.Windows.Forms.ComboBox algorithmsComboBox;
+        private System.Windows.Forms.Label bestIndividualLabel;
     }
 }
 
