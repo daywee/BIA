@@ -125,7 +125,7 @@ namespace Lesson05
 
         private void InitFunctionsComboBox()
         {
-            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction() }
+            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction(), new DeJongFunction() }
                 .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
@@ -262,6 +262,9 @@ namespace Lesson05
                     break;
                 case "Sphere":
                     builder.WithOptimizationFunction<SphereFunction>();
+                    break;
+                case "De Jong":
+                    builder.WithOptimizationFunction<DeJongFunction>();
                     break;
                 default:
                     throw new InvalidOperationException($"Optimization function '{optimizationFunctionName}' is not supported.");
