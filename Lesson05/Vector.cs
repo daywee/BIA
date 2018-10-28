@@ -79,6 +79,20 @@ namespace Lesson05
             return x * alpha;
         }
 
+        public static Vector operator +(Vector x, double alpha)
+        {
+            var newCoordinates = new double[x.Dimensions];
+            for (int i = 0; i < x.Dimensions; i++)
+                newCoordinates[i] = x[i] + alpha;
+
+            return new Vector(newCoordinates);
+        }
+
+        public static Vector operator +(double alpha, Vector x)
+        {
+            return x + alpha;
+        }
+
         public static Vector operator *(Vector a, Vector b)
         {
             if (a.Dimensions != b.Dimensions)
@@ -91,6 +105,20 @@ namespace Lesson05
             return new Vector(newCoordinates);
         }
         #endregion
+
+        public double GetEuclideanDistanceTo(Vector vector)
+        {
+            if (Dimensions != vector.Dimensions)
+                throw new InvalidOperationException("Individuals must have same dimension");
+
+            double sum = 0;
+            for (int i = 0; i < Dimensions; i++)
+            {
+                sum += _x[i] - vector[i];
+            }
+
+            return Math.Sqrt(sum);
+        }
 
         public double[] ToArray() => _x.ToArray();
     }

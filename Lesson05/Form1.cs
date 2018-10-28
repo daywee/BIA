@@ -24,7 +24,7 @@ namespace Lesson05
         {
             InitializeComponent();
             InitFunctionsComboBox();
-            _evolveTimer = new Timer { Interval = 50 };
+            _evolveTimer = new Timer { Interval = 250 };
             InitEventListeners();
 
             _population = GetPopulation((string)algorithmsComboBox.SelectedItem, (string)functionsComboBox.SelectedItem);
@@ -129,7 +129,7 @@ namespace Lesson05
                 .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
-            new[] { "Hill Climbing", "Simulated Annealing", "SOMA", "Particle Swarm" }
+            new[] { "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
                 .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
             algorithmsComboBox.SelectedIndex = 0;
         }
