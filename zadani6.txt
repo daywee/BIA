@@ -1,0 +1,12 @@
+naimplementovat
+1. DE/rand/1/bin
+2. DE/current-to-pbest/1/bin
+
+p=5
+vi = xi + (xpbest-xi) * F + (x1-x2) * F
+
+porovnat pro 20 pruchodu
+CR = 0.9
+F = 0.5
+
+trial vector beru do dalsi populace jen pokud je jeho fitness >= predek
