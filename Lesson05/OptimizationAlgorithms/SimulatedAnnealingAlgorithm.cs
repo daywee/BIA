@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Lesson05
 {
-    public class SimulatedAnnealingAlgorithm : IAlgorithm
+    public class SimulatedAnnealingAlgorithm : IAlgorithm<Individual>
     {
         public double Alpha { get; }
         public double Temperature { get; private set; }
@@ -20,7 +20,14 @@ namespace Lesson05
             Temperature = 2000;
         }
 
-        public List<Individual> GeneratePopulation(Population population)
+        public List<Individual> SeedPopulation(Population<Individual> population)
+        {
+            return Enumerable.Range(0, SeedingPopulationCount)
+                .Select(_ => population.GetRandomIndividual())
+                .ToList();
+        }
+
+        public List<Individual> GeneratePopulation(Population<Individual> population)
         {
             Individual result;
 

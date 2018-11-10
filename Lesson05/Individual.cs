@@ -7,6 +7,11 @@ namespace Lesson05
         public Vector Position;
         public double Cost { get; set; }
 
+        public Individual()
+        {
+            
+        }
+
         public Individual(int dimensions)
         {
             Position = new Vector(dimensions);

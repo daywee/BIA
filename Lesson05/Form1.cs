@@ -3,7 +3,6 @@ using ILNumerics.Drawing.Plotting;
 using Shared.ExtensionMethods;
 using Shared.TestFunctions;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -13,7 +12,6 @@ namespace Lesson05
     public partial class Form1 : Form
     {
         private readonly ILPlotCube _plotCube;
-        private readonly Dictionary<string, FunctionBase> _functions = new Dictionary<string, FunctionBase>();
         private ILSurface _currentSurface;
         private ILPoints _points;
         private ILPoints _additionalPoints;
@@ -28,8 +26,8 @@ namespace Lesson05
             InitFunctionsComboBox();
             _evolveTimer = new Timer { Interval = 50 };
             InitEventListeners();
-            _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
+
+            _population = GetPopulation((string)algorithmsComboBox.SelectedItem, (string)functionsComboBox.SelectedItem);
 
             _plotCube = new ILPlotCube();
             var scene = new ILScene { _plotCube };
@@ -76,6 +74,7 @@ namespace Lesson05
             }
 
             _points = new ILPoints();
+            _points.Color = Color.White;
             _points.Positions.Update(points);
             _plotCube.Add(_points);
 
@@ -127,14 +126,10 @@ namespace Lesson05
         private void InitFunctionsComboBox()
         {
             new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction() }
-                .ForEach(func =>
-                {
-                    _functions.Add(func.Name, func);
-                    functionsComboBox.Items.Add(func.Name);
-                });
+                .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
-            new[] { "Hill Climbing", "Simulated Annealing", "SOMA" }
+            new[] { "Hill Climbing", "Simulated Annealing", "SOMA", "Particle Swarm" }
                 .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
             algorithmsComboBox.SelectedIndex = 0;
         }
@@ -168,15 +163,13 @@ namespace Lesson05
 
             functionsComboBox.SelectedIndexChanged += (o, e) =>
             {
-                _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
+                _population = GetPopulation((string)algorithmsComboBox.SelectedItem, (string)functionsComboBox.SelectedItem);
                 RenderFunction();
             };
 
             algorithmsComboBox.SelectedIndexChanged += (o, e) =>
             {
-                _population = new Population(_functions[(string)functionsComboBox.SelectedItem],
-                    GetAlgorithm((string)algorithmsComboBox.SelectedItem), dimensions: 2);
+                _population = GetPopulation((string)algorithmsComboBox.SelectedItem, (string)functionsComboBox.SelectedItem);
                 RenderFunction();
             };
 
@@ -230,6 +223,54 @@ namespace Lesson05
                 default:
                     throw new InvalidOperationException($"Algorithm '{name}' is not supported.");
             }
+        }
+
+        private Population GetPopulation(string algorithmName, string optimizationFunctionName)
+        {
+            var builder = PopulationBuilder.GetBuilder();
+            switch (algorithmName)
+            {
+                case "Hill Climbing":
+                    builder.WithAlgorithm<HillClimbingAlgorithm>();
+                    break;
+                case "Simulated Annealing":
+                    builder.WithAlgorithm<SimulatedAnnealingAlgorithm>();
+                    break;
+                case "SOMA":
+                    builder.WithAlgorithm<SomaAlgorithm>();
+                    break;
+                case "Particle Swarm":
+                    builder.WithAlgorithm<ParticleSwarmAlgorithm>();
+                    break;
+                default:
+                    throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
+            }
+
+            switch (optimizationFunctionName)
+            {
+                case "Ackley":
+                    builder.WithOptimizationFunction<AckleyFunction>();
+                    break;
+                case "Booth":
+                    builder.WithOptimizationFunction<BoothFunction>();
+                    break;
+                case "Rosenbrock":
+                    builder.WithOptimizationFunction<RosenbrockFunction>();
+                    break;
+                case "Schwefel":
+                    builder.WithOptimizationFunction<SchwefelFunction>();
+                    break;
+                case "Sphere":
+                    builder.WithOptimizationFunction<SphereFunction>();
+                    break;
+                default:
+                    throw new InvalidOperationException($"Optimization function '{optimizationFunctionName}' is not supported.");
+            }
+
+            return builder
+                .WithDimension(2)
+                .WithOptimizationTarget(OptimizationTarget.Minimum)
+                .Build();
         }
     }
 }

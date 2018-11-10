@@ -5,46 +5,21 @@ using System.Linq;
 
 namespace Lesson05
 {
-    public class Population
+    public abstract class Population
     {
         public int Dimensions { get; }
-        public OptimizationTarget OptimizationTarget { get; }
-        public int MaxPopulationCount { get; }
-        public List<Individual> CurrentPopulation { get; private set; }
-        public List<Individual> AdditionalIndividualsToRender { get; set; } = new List<Individual>();
-        public int Generation { get; private set; }
         public FunctionBase OptimizationFunction { get; }
-        public IAlgorithm Algorithm { get; }
-        public Individual BestIndividual { get; private set; }
+        public int Generation { get; protected set; }
+        public List<Individual> CurrentPopulation { get; protected set; }
+        public List<Individual> AdditionalIndividualsToRender { get; set; }
+        public Individual BestIndividual { get; protected set; }
         public double StandardDeviation { get; set; } = 1; // sigma
         public double Mean { get; set; } = 0; // mu
 
-        private readonly Random _random = new Random();
-
-        public Population(FunctionBase optimizationFunction, IAlgorithm algorithm, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
+        protected Population(FunctionBase optimizationFunction, int dimensions)
         {
             OptimizationFunction = optimizationFunction;
-            Algorithm = algorithm;
-            MaxPopulationCount = algorithm.MaxPopulation;
             Dimensions = dimensions;
-            OptimizationTarget = optimizationTarget;
-            CreateNewPopulation();
-        }
-
-        public void CreateNewPopulation()
-        {
-            CurrentPopulation = Enumerable.Range(0, Algorithm.SeedingPopulationCount)
-                .Select(_ => GetRandomIndividual())
-                .ToList();
-
-            ApplyBounds(CurrentPopulation);
-
-            if (OptimizationTarget == OptimizationTarget.Minimum)
-                BestIndividual = CurrentPopulation.OrderBy(e => e.Cost).First();
-            else
-                BestIndividual = CurrentPopulation.OrderByDescending(e => e.Cost).First();
-
-            Generation = 0;
         }
 
         public Individual CalculateMean()
@@ -63,7 +38,56 @@ namespace Lesson05
             return mean;
         }
 
-        public void Evolve()
+        public abstract void Evolve();
+        public abstract void CreateNewPopulation();
+    }
+
+    // todo: try to remove new() constraint
+    public class Population<TIndividual> : Population where TIndividual : Individual, new()
+    {
+        public OptimizationTarget OptimizationTarget { get; }
+        public int MaxPopulationCount { get; }
+
+        public new List<TIndividual> CurrentPopulation
+        {
+            get => base.CurrentPopulation.Cast<TIndividual>().ToList();
+            private set => base.CurrentPopulation = value.Cast<Individual>().ToList();
+        }
+
+        public new List<TIndividual> AdditionalIndividualsToRender
+        {
+            get => base.AdditionalIndividualsToRender.Cast<TIndividual>().ToList();
+            set => base.AdditionalIndividualsToRender = value.Cast<Individual>().ToList();
+        }
+        public IAlgorithm<TIndividual> Algorithm { get; }
+
+        private readonly Random _random = new Random();
+
+        public Population(FunctionBase optimizationFunction, IAlgorithm<TIndividual> algorithm, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
+            : base(optimizationFunction, dimensions)
+        {
+            AdditionalIndividualsToRender = new List<TIndividual>();
+            Algorithm = algorithm;
+            MaxPopulationCount = algorithm.MaxPopulation;
+            OptimizationTarget = optimizationTarget;
+            CreateNewPopulation();
+        }
+
+        public override void CreateNewPopulation()
+        {
+            CurrentPopulation = Algorithm.SeedPopulation(this);
+
+            ApplyBounds(CurrentPopulation);
+
+            if (OptimizationTarget == OptimizationTarget.Minimum)
+                BestIndividual = CurrentPopulation.OrderBy(e => e.Cost).First();
+            else
+                BestIndividual = CurrentPopulation.OrderByDescending(e => e.Cost).First();
+
+            Generation = 0;
+        }
+
+        public override void Evolve()
         {
             GeneratePopulation();
             SetBestIndividual();
@@ -77,6 +101,7 @@ namespace Lesson05
             ApplyBounds(AdditionalIndividualsToRender);
         }
 
+        // todo: maybe it should be part of a algorithm
         private void ApplyBounds(IEnumerable<Individual> population)
         {
             foreach (var individual in population)
@@ -108,7 +133,8 @@ namespace Lesson05
             BestIndividual = bestIndividual;
         }
 
-        private Individual GetRandomIndividual()
+        // todo: maybe it should be part of a algorithm
+        internal TIndividual GetRandomIndividual()
         {
             var min = OptimizationFunction.MinX;
             var max = OptimizationFunction.MaxX;
@@ -118,7 +144,13 @@ namespace Lesson05
                 .Select(e => _random.NextDouble() * interval - max)
                 .ToArray();
 
-            return new Individual(randomCoordinates, OptimizationFunction.Calculate(randomCoordinates));
+            var newIndividual = new TIndividual
+            {
+                Position = new Vector(randomCoordinates),
+                Cost = OptimizationFunction.Calculate(randomCoordinates)
+            };
+
+            return newIndividual;
         }
     }
 

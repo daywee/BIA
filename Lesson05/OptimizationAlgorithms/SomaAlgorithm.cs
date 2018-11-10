@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lesson05
 {
-    public class SomaAlgorithm : IAlgorithm
+    public class SomaAlgorithm : IAlgorithm<Individual>
     {
         public double PathLength { get; }
         public double StepSize { get; }
@@ -22,7 +22,15 @@ namespace Lesson05
             MaxPopulation = maxPopulation;
         }
 
-        public List<Individual> GeneratePopulation(Population population)
+        public List<Individual> SeedPopulation(Population<Individual> population)
+        {
+            return Enumerable.Range(0, SeedingPopulationCount)
+                .Select(_ => population.GetRandomIndividual())
+                .ToList();
+        }
+
+        // todo: rendering of additional individuals does not work
+        public List<Individual> GeneratePopulation(Population<Individual> population)
         {
             population.AdditionalIndividualsToRender.Clear();
             var leader = population.BestIndividual;
@@ -57,7 +65,7 @@ namespace Lesson05
         private Vector GeneratePrtVector(int dimensions)
         {
             var vector = Enumerable.Range(0, dimensions)
-                .Select(i => _random.NextDouble() < Prt ? (double) 1 : 0);
+                .Select(i => _random.NextDouble() < Prt ? (double)1 : 0);
 
             return new Vector(vector);
         }
