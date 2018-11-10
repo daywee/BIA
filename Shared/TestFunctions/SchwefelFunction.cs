@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace Shared.TestFunctions
 {
-    // todo: fix problem in finding minimum in schwefel function
     public class SchwefelFunction : FunctionBase
     {
         public override string Name { get; } = "Schwefel";

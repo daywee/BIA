@@ -1,9 +1,8 @@
-﻿using Shared.ExtensionMethods;
+﻿using Lesson05.OptimizationAlgorithms;
 using Shared.TestFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lesson05.OptimizationAlgorithms;
 
 namespace Lesson05
 {
@@ -53,7 +52,7 @@ namespace Lesson05
             get => base.CurrentPopulation.Cast<TIndividual>().ToList();
             private set => base.CurrentPopulation = value.Cast<Individual>().ToList();
         }
-        
+
         public IAlgorithm<TIndividual> Algorithm { get; }
 
         private readonly Random _random = new Random();
@@ -69,8 +68,6 @@ namespace Lesson05
         public override void CreateNewPopulation()
         {
             CurrentPopulation = Algorithm.SeedPopulation(this);
-
-            ApplyBounds(CurrentPopulation);
 
             if (OptimizationTarget == OptimizationTarget.Minimum)
                 BestIndividual = CurrentPopulation.OrderBy(e => e.Cost).First();
@@ -90,39 +87,6 @@ namespace Lesson05
         private void GeneratePopulation()
         {
             CurrentPopulation = Algorithm.GeneratePopulation(this);
-            ApplyBounds(CurrentPopulation);
-        }
-
-        // todo: maybe it should be part of a algorithm
-        internal void ApplyBounds(IEnumerable<Individual> population)
-        {
-            population.ForEach(ApplyBounds);
-        }
-
-        internal void ApplyBounds(Individual individual)
-        {
-            double GetRandomCoordinate()
-            {
-                double min = OptimizationFunction.MinX;
-                double max = OptimizationFunction.MaxX;
-                double interval = Math.Abs(max - min);
-
-                return _random.NextDouble() * interval - max;
-            }
-
-            for (int i = 0; i < Dimensions; i++)
-            {
-                if (individual.Position[i] < OptimizationFunction.MinX)
-                {
-                    individual.Position[i] = GetRandomCoordinate();
-                    individual.CalculateCost(OptimizationFunction);
-                }
-                else if (individual.Position[i] > OptimizationFunction.MaxX)
-                {
-                    individual.Position[i] = GetRandomCoordinate();
-                    individual.CalculateCost(OptimizationFunction);
-                }
-            }
         }
 
         private void SetBestIndividual()

@@ -31,6 +31,7 @@ namespace Lesson05.OptimizationAlgorithms
             x += population.BestIndividual.Position; // translate by current best individual
 
             var newBest = new Individual(x);
+            newBest.ApplyBounds(population.OptimizationFunction, _random);
             newBest.CalculateCost(population.OptimizationFunction);
 
             if ((population.OptimizationTarget == OptimizationTarget.Maximum && newBest.Cost > population.BestIndividual.Cost)

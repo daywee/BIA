@@ -1,4 +1,5 @@
-﻿using Shared.TestFunctions;
+﻿using System;
+using Shared.TestFunctions;
 using System.Collections.Generic;
 
 namespace Lesson05
@@ -30,6 +31,29 @@ namespace Lesson05
         public void CalculateCost(FunctionBase function)
         {
             Cost = function.Calculate(Position.ToArray());
+        }
+
+        // random parameter is used to improve 'randomness'
+        // if each Individual would have it's own Random then NextDouble() results
+        // would be same if Individuals are initialized at the same time
+        public void ApplyBounds(FunctionBase optimizationFunction, Random random)
+        {
+            double GetRandomCoordinate()
+            {
+                double min = optimizationFunction.MinX;
+                double max = optimizationFunction.MaxX;
+                double interval = Math.Abs(max - min);
+
+                return random.NextDouble() * interval - max;
+            }
+
+            for (int i = 0; i < Position.Dimensions; i++)
+            {
+                if (Position[i] < optimizationFunction.MinX)
+                    Position[i] = GetRandomCoordinate();
+                else if (Position[i] > optimizationFunction.MaxX)
+                    Position[i] = GetRandomCoordinate();
+            }
         }
     }
 }

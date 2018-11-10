@@ -42,8 +42,8 @@ namespace Lesson05.OptimizationAlgorithms
                     var moveVector = leader.Position - other.Position;
                     var individualStepVector = other.Position + moveVector * t * GeneratePrtVector(population.Dimensions);
                     var individualStep = new Individual(individualStepVector);
+                    individualStep.ApplyBounds(population.OptimizationFunction, _random);
                     individualStep.CalculateCost(population.OptimizationFunction);
-                    population.ApplyBounds(individualStep);
                     individualSteps.Add(individualStep);
                 }
 

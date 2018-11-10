@@ -25,6 +25,7 @@ namespace Lesson05.OptimizationAlgorithms
                     x += population.BestIndividual.Position; // translate by current best individual
 
                     var newIndividual = new Individual(x);
+                    newIndividual.ApplyBounds(population.OptimizationFunction, _random);
                     newIndividual.CalculateCost(population.OptimizationFunction);
                     return newIndividual;
                 })
