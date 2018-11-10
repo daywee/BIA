@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ILNumerics">
+      <HintPath>..\ExternalLibraries\ILNumerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,8 +55,22 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Individual.cs" />
+    <Compile Include="OptimizationAlgorithms\DifferentialEvolution.cs" />
+    <Compile Include="OptimizationAlgorithms\HillClimbingAlgorithm.cs" />
+    <Compile Include="OptimizationAlgorithms\IAlgorithm.cs" />
+    <Compile Include="OptimizationAlgorithms\ParticleSwarmAlgorithm.cs" />
+    <Compile Include="OptimizationAlgorithms\SimulatedAnnealingAlgorithm.cs" />
+    <Compile Include="OptimizationAlgorithms\SomaAlgorithm.cs" />
+    <Compile Include="ParticleSwarmIndividual.cs" />
+    <Compile Include="Population.cs" />
+    <Compile Include="PopulationBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vector.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -75,6 +92,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{4907649e-2689-4de2-b257-053db8c369df}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
