@@ -1,4 +1,4 @@
-using ILNumerics.Drawing;
+﻿using ILNumerics.Drawing;
 using ILNumerics.Drawing.Plotting;
 using Shared.ExtensionMethods;
 using Shared.TestFunctions;
@@ -24,7 +24,7 @@ namespace Lesson05
         {
             InitializeComponent();
             InitFunctionsComboBox();
-            _evolveTimer = new Timer { Interval = 250 };
+            _evolveTimer = new Timer { Interval = 100 };
             InitEventListeners();
 
             _population = GetPopulation((string)algorithmsComboBox.SelectedItem, (string)functionsComboBox.SelectedItem);

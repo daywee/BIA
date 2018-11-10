@@ -46,5 +46,10 @@ namespace Shared.ExtensionMethods
 
             return (x, y);
         }
+
+        public static double NextDoubleWithNegative(this Random random)
+        {
+            return random.NextDouble() * 2 - 1;
+        }
     }
 }

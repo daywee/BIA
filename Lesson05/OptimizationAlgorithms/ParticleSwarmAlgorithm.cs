@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Shared.ExtensionMethods;
 
 namespace Lesson05
 {
     // mel by taky obsahovat setrvacnost?
     public class ParticleSwarmAlgorithm : IAlgorithm<ParticleSwarmIndividual>
     {
-        public int MaxPopulation { get; } = 10;
-        public int SeedingPopulationCount { get; } = 10;
+        public int MaxPopulation { get; } = 100;
+        public int SeedingPopulationCount { get; } = 100;
         public double MaxVelocity { get; set; }
         public double C1 { get; } // learning factor
         public double C2 { get; } // learning factor
@@ -31,7 +32,7 @@ namespace Lesson05
                     var individual = population.GetRandomIndividual();
 
                     var randomVelocity = Enumerable.Range(0, population.Dimensions)
-                        .Select(e => _random.NextDouble() * MaxVelocity)
+                        .Select(e => _random.NextDoubleWithNegative() * MaxVelocity)
                         .ToArray();
 
                     individual.Velocity = new Vector(randomVelocity);
@@ -53,11 +54,17 @@ namespace Lesson05
                 var v2 = C2 * _random.NextDouble() * (globalBest - individual.Position);
                 newIndividual.Velocity = individual.Velocity + v1 + v2;
 
-                while (zeroVector.GetEuclideanDistanceTo(newIndividual.Velocity) > MaxVelocity)
+                // generate new v if v > vmax
+                var newIndividualVelocity = newIndividual.Velocity.ToArray();
+                for (int i = 0; i < newIndividualVelocity.Length; i++)
                 {
-                    newIndividual.Velocity *= 0.8;
-                    Debug.WriteLine(zeroVector.GetEuclideanDistanceTo(newIndividual.Velocity));
+                    if (newIndividualVelocity[i] > MaxVelocity)
+                    {
+                        newIndividualVelocity[i] = _random.NextDoubleWithNegative() * MaxVelocity;
+                    }
                 }
+                newIndividual.Velocity = new Vector(newIndividualVelocity);
+                
 
                 newIndividual.Position = individual.Position + newIndividual.Velocity;
                 newIndividual.Cost = population.OptimizationFunction.Calculate(newIndividual.Position.ToArray());
