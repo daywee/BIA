@@ -1,4 +1,4 @@
-﻿using ILNumerics.Drawing;
+using ILNumerics.Drawing;
 using ILNumerics.Drawing.Plotting;
 using Shared.ExtensionMethods;
 using Shared.TestFunctions;
@@ -125,7 +125,7 @@ namespace Lesson05
 
         private void InitFunctionsComboBox()
         {
-            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction(), new DeJongFunction() }
+            new FunctionBase[] { new AckleyFunction(), new RosenbrockFunction(), new SchwefelFunction(), new SphereFunction(), new BoothFunction(), new DeJongFunction(), new RastriginFunction() }
                 .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
@@ -267,6 +267,9 @@ namespace Lesson05
                     break;
                 case "De Jong":
                     builder.WithOptimizationFunction<DeJongFunction>();
+                    break;
+                case "Rastrigin":
+                    builder.WithOptimizationFunction<RastriginFunction>();
                     break;
                 default:
                     throw new InvalidOperationException($"Optimization function '{optimizationFunctionName}' is not supported.");

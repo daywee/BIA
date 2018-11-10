@@ -48,6 +48,7 @@
     <Compile Include="TestFunctions\BoothFunction.cs" />
     <Compile Include="TestFunctions\DeJongFunction.cs" />
     <Compile Include="TestFunctions\FunctionBase.cs" />
+    <Compile Include="TestFunctions\RastriginFunction.cs" />
     <Compile Include="TestFunctions\RosenbrockFunction.cs" />
     <Compile Include="TestFunctions\SchwefelFunction.cs" />
     <Compile Include="TestFunctions\SphereFunction.cs" />
