@@ -112,20 +112,6 @@ namespace Lesson05
         }
         #endregion
 
-        public double GetEuclideanDistanceTo(Vector vector)
-        {
-            if (Dimensions != vector.Dimensions)
-                throw new InvalidOperationException("Individuals must have same dimension");
-
-            double sum = 0;
-            for (int i = 0; i < Dimensions; i++)
-            {
-                sum += _x[i] - vector[i];
-            }
-
-            return Math.Sqrt(sum);
-        }
-
         public double[] ToArray() => _x.ToArray();
     }
 }

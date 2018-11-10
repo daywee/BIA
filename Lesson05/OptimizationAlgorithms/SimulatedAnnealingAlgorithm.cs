@@ -1,7 +1,6 @@
 ﻿using Shared.ExtensionMethods;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Lesson05.OptimizationAlgorithms
 {

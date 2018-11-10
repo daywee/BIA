@@ -13,7 +13,6 @@ namespace Lesson05
         public FunctionBase OptimizationFunction { get; }
         public int Generation { get; protected set; }
         public List<Individual> CurrentPopulation { get; protected set; }
-        public List<Individual> AdditionalIndividualsToRender { get; set; }
         public Individual BestIndividual { get; protected set; }
         public double StandardDeviation { get; set; } = 1; // sigma
         public double Mean { get; set; } = 0; // mu
@@ -54,12 +53,7 @@ namespace Lesson05
             get => base.CurrentPopulation.Cast<TIndividual>().ToList();
             private set => base.CurrentPopulation = value.Cast<Individual>().ToList();
         }
-
-        public new List<TIndividual> AdditionalIndividualsToRender
-        {
-            get => base.AdditionalIndividualsToRender.Cast<TIndividual>().ToList();
-            set => base.AdditionalIndividualsToRender = value.Cast<Individual>().ToList();
-        }
+        
         public IAlgorithm<TIndividual> Algorithm { get; }
 
         private readonly Random _random = new Random();
@@ -67,7 +61,6 @@ namespace Lesson05
         public Population(FunctionBase optimizationFunction, IAlgorithm<TIndividual> algorithm, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
             : base(optimizationFunction, dimensions)
         {
-            AdditionalIndividualsToRender = new List<TIndividual>();
             Algorithm = algorithm;
             OptimizationTarget = optimizationTarget;
             CreateNewPopulation();
@@ -98,7 +91,6 @@ namespace Lesson05
         {
             CurrentPopulation = Algorithm.GeneratePopulation(this);
             ApplyBounds(CurrentPopulation);
-            ApplyBounds(AdditionalIndividualsToRender);
         }
 
         // todo: maybe it should be part of a algorithm

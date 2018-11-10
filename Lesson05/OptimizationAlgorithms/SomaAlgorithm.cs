@@ -30,7 +30,6 @@ namespace Lesson05.OptimizationAlgorithms
         // todo: rendering of additional individuals does not work
         public List<Individual> GeneratePopulation(Population<Individual> population)
         {
-            population.AdditionalIndividualsToRender.Clear();
             var leader = population.BestIndividual;
             var others = population.CurrentPopulation.Except(new[] { leader });
             var newPopulation = new List<Individual>();
@@ -54,7 +53,6 @@ namespace Lesson05.OptimizationAlgorithms
                 else
                     orderedIndividualSteps = individualSteps.OrderByDescending(e => e.Cost).ToList();
                 newPopulation.Add(orderedIndividualSteps.First());
-                population.AdditionalIndividualsToRender.AddRange(orderedIndividualSteps.Skip(1));
             }
 
             newPopulation.Add(leader);
