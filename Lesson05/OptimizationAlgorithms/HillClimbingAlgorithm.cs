@@ -10,18 +10,15 @@ namespace Lesson05.OptimizationAlgorithms
         private readonly Random _random = new Random();
 
         public int MaxPopulation { get; } = 50;
-        public int SeedingPopulationCount { get; } = 1;
 
         public List<Individual> SeedPopulation(Population<Individual> population)
         {
-            return Enumerable.Range(0, SeedingPopulationCount)
-                .Select(_ => population.GetRandomIndividual())
-                .ToList();
+            return new List<Individual> { population.GetRandomIndividual() };
         }
 
         public List<Individual> GeneratePopulation(Population<Individual> population)
         {
-            return Enumerable.Range(0, population.MaxPopulationCount)
+            return Enumerable.Range(0, MaxPopulation)
                 .Select(_ =>
                 {
                     var x = new Vector(_random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean));

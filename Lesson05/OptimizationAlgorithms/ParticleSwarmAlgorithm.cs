@@ -9,7 +9,6 @@ namespace Lesson05.OptimizationAlgorithms
     public class ParticleSwarmAlgorithm : IAlgorithm<ParticleSwarmIndividual>
     {
         public int MaxPopulation { get; } = 10;
-        public int SeedingPopulationCount { get; } = 10;
         public double MaxVelocity { get; set; }
         public double C1 { get; } // learning factor
         public double C2 { get; } // learning factor
@@ -25,7 +24,7 @@ namespace Lesson05.OptimizationAlgorithms
 
         public List<ParticleSwarmIndividual> SeedPopulation(Population<ParticleSwarmIndividual> population)
         {
-            return Enumerable.Range(0, SeedingPopulationCount)
+            return Enumerable.Range(0, MaxPopulation)
                 .Select(_ =>
                 {
                     var individual = population.GetRandomIndividual();

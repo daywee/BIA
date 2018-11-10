@@ -10,7 +10,6 @@ namespace Lesson05.OptimizationAlgorithms
         public double Alpha { get; }
         public double Temperature { get; private set; }
         public int MaxPopulation { get; } = 1;
-        public int SeedingPopulationCount { get; } = 1;
 
         private readonly Random _random = new Random();
 
@@ -22,9 +21,7 @@ namespace Lesson05.OptimizationAlgorithms
 
         public List<Individual> SeedPopulation(Population<Individual> population)
         {
-            return Enumerable.Range(0, SeedingPopulationCount)
-                .Select(_ => population.GetRandomIndividual())
-                .ToList();
+            return new List<Individual> { population.GetRandomIndividual() };
         }
 
         public List<Individual> GeneratePopulation(Population<Individual> population)

@@ -10,21 +10,19 @@ namespace Lesson05.OptimizationAlgorithms
         public double StepSize { get; }
         public double Prt { get; }
         public int MaxPopulation { get; } = 10;
-        public int SeedingPopulationCount { get; } = 10;
 
         private readonly Random _random = new Random();
 
-        public SomaAlgorithm(double pathLength = 3, double stepSize = 0.11, double prt = 0.1, int maxPopulation = 10)
+        public SomaAlgorithm(double pathLength = 3, double stepSize = 0.11, double prt = 0.1)
         {
             PathLength = pathLength;
             StepSize = stepSize;
             Prt = prt;
-            MaxPopulation = maxPopulation;
         }
 
         public List<Individual> SeedPopulation(Population<Individual> population)
         {
-            return Enumerable.Range(0, SeedingPopulationCount)
+            return Enumerable.Range(0, MaxPopulation)
                 .Select(_ => population.GetRandomIndividual())
                 .ToList();
         }

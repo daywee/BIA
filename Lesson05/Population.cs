@@ -48,7 +48,6 @@ namespace Lesson05
     public class Population<TIndividual> : Population where TIndividual : Individual, new()
     {
         public OptimizationTarget OptimizationTarget { get; }
-        public int MaxPopulationCount { get; }
 
         public new List<TIndividual> CurrentPopulation
         {
@@ -70,7 +69,6 @@ namespace Lesson05
         {
             AdditionalIndividualsToRender = new List<TIndividual>();
             Algorithm = algorithm;
-            MaxPopulationCount = algorithm.MaxPopulation;
             OptimizationTarget = optimizationTarget;
             CreateNewPopulation();
         }
@@ -138,7 +136,7 @@ namespace Lesson05
         private void SetBestIndividual()
         {
             var bestIndividual = CurrentPopulation.First();
-            for (int i = 1; i < MaxPopulationCount; i++)
+            for (int i = 1; i < Algorithm.MaxPopulation; i++)
             {
                 var currentIndividual = CurrentPopulation[i];
 
