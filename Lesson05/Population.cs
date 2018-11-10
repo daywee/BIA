@@ -35,7 +35,7 @@ namespace Lesson05
             for (int i = 0; i < Dimensions; i++)
                 mean.Position[i] /= CurrentPopulation.Count;
 
-            mean.Cost = OptimizationFunction.Calculate(mean.Position.ToArray());
+            mean.CalculateCost(OptimizationFunction);
 
             return mean;
         }

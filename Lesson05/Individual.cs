@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Shared.TestFunctions;
+﻿using Shared.TestFunctions;
+using System.Collections.Generic;
 
 namespace Lesson05
 {
@@ -10,7 +10,6 @@ namespace Lesson05
 
         public Individual()
         {
-            
         }
 
         public Individual(int dimensions)
@@ -26,18 +25,6 @@ namespace Lesson05
         public Individual(Vector coordinates)
         {
             Position = coordinates;
-        }
-
-        public Individual(IEnumerable<double> coordinates, double cost)
-            : this(coordinates)
-        {
-            Cost = cost;
-        }
-
-        public Individual(Vector coordinates, double cost)
-            : this(coordinates)
-        {
-            Cost = cost;
         }
 
         public void CalculateCost(FunctionBase function)

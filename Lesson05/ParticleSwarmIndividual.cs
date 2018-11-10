@@ -11,15 +11,13 @@ namespace Lesson05
         {
         }
 
-        public ParticleSwarmIndividual(int dimensions) : base(dimensions)
+        public ParticleSwarmIndividual(int dimensions)
+            : base(dimensions)
         {
         }
 
-        public ParticleSwarmIndividual(IEnumerable<double> coordinates) : base(coordinates)
-        {
-        }
-
-        public ParticleSwarmIndividual(IEnumerable<double> coordinates, double cost) : base(coordinates, cost)
+        public ParticleSwarmIndividual(IEnumerable<double> coordinates)
+            : base(coordinates)
         {
         }
     }

@@ -63,7 +63,7 @@ namespace Lesson05.OptimizationAlgorithms
                 newIndividual.Velocity = new Vector(newIndividualVelocity);
 
                 newIndividual.Position = individual.Position + newIndividual.Velocity;
-                newIndividual.Cost = population.OptimizationFunction.Calculate(newIndividual.Position.ToArray());
+                newIndividual.CalculateCost(population.OptimizationFunction);
 
                 if (newIndividual.Cost > individual.Cost)
                     newIndividual.PersonalBestPosition = newIndividual.Position;

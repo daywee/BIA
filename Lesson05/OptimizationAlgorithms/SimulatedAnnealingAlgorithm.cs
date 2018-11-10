@@ -31,7 +31,8 @@ namespace Lesson05.OptimizationAlgorithms
             var x = new Vector(_random.NextNormalDistribution(population.Dimensions, population.StandardDeviation, population.Mean));
             x += population.BestIndividual.Position; // translate by current best individual
 
-            var newBest = new Individual(x, population.OptimizationFunction.Calculate(x.ToArray()));
+            var newBest = new Individual(x);
+            newBest.CalculateCost(population.OptimizationFunction);
 
             if ((population.OptimizationTarget == OptimizationTarget.Maximum && newBest.Cost > population.BestIndividual.Cost)
                 || (population.OptimizationTarget == OptimizationTarget.Minimum && newBest.Cost < population.BestIndividual.Cost))
