@@ -9,8 +9,8 @@ namespace Lesson05
     // mel by taky obsahovat setrvacnost?
     public class ParticleSwarmAlgorithm : IAlgorithm<ParticleSwarmIndividual>
     {
-        public int MaxPopulation { get; } = 100;
-        public int SeedingPopulationCount { get; } = 100;
+        public int MaxPopulation { get; } = 10;
+        public int SeedingPopulationCount { get; } = 10;
         public double MaxVelocity { get; set; }
         public double C1 { get; } // learning factor
         public double C2 { get; } // learning factor
@@ -46,7 +46,6 @@ namespace Lesson05
         {
             var newPopulation = new List<ParticleSwarmIndividual>();
             var globalBest = population.BestIndividual.Position;
-            var zeroVector = new Vector(population.Dimensions);
             foreach (var individual in population.CurrentPopulation)
             {
                 var newIndividual = new ParticleSwarmIndividual();
@@ -64,7 +63,6 @@ namespace Lesson05
                     }
                 }
                 newIndividual.Velocity = new Vector(newIndividualVelocity);
-                
 
                 newIndividual.Position = individual.Position + newIndividual.Velocity;
                 newIndividual.Cost = population.OptimizationFunction.Calculate(newIndividual.Position.ToArray());

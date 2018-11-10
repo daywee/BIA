@@ -1,4 +1,5 @@
-﻿using Shared.TestFunctions;
+﻿using Shared.ExtensionMethods;
+using Shared.TestFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,16 +103,33 @@ namespace Lesson05
         }
 
         // todo: maybe it should be part of a algorithm
-        private void ApplyBounds(IEnumerable<Individual> population)
+        internal void ApplyBounds(IEnumerable<Individual> population)
         {
-            foreach (var individual in population)
+            population.ForEach(ApplyBounds);
+        }
+
+        internal void ApplyBounds(Individual individual)
+        {
+            double GetRandomCoordinate()
             {
-                for (int i = 0; i < Dimensions; i++)
+                double min = OptimizationFunction.MinX;
+                double max = OptimizationFunction.MaxX;
+                double interval = Math.Abs(max - min);
+
+                return _random.NextDouble() * interval - max;
+            }
+
+            for (int i = 0; i < Dimensions; i++)
+            {
+                if (individual.Position[i] < OptimizationFunction.MinX)
                 {
-                    if (individual.Position[i] < OptimizationFunction.MinX)
-                        individual.Position[i] = OptimizationFunction.MinX;
-                    else if (individual.Position[i] > OptimizationFunction.MaxX)
-                        individual.Position[i] = OptimizationFunction.MaxX;
+                    individual.Position[i] = GetRandomCoordinate();
+                    individual.CalculateCost(OptimizationFunction);
+                }
+                else if (individual.Position[i] > OptimizationFunction.MaxX)
+                {
+                    individual.Position[i] = GetRandomCoordinate();
+                    individual.CalculateCost(OptimizationFunction);
                 }
             }
         }

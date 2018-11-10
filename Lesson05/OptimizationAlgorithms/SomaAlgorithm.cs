@@ -44,7 +44,9 @@ namespace Lesson05
                 {
                     var moveVector = leader.Position - other.Position;
                     var individualStepVector = other.Position + moveVector * t * GeneratePrtVector(population.Dimensions);
-                    var individualStep = new Individual(individualStepVector, population.OptimizationFunction.Calculate(individualStepVector.ToArray()));
+                    var individualStep = new Individual(individualStepVector);
+                    individualStep.CalculateCost(population.OptimizationFunction);
+                    population.ApplyBounds(individualStep);
                     individualSteps.Add(individualStep);
                 }
 

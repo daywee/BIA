@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Shared.TestFunctions;
 
 namespace Lesson05
 {
@@ -37,6 +38,11 @@ namespace Lesson05
             : this(coordinates)
         {
             Cost = cost;
+        }
+
+        public void CalculateCost(FunctionBase function)
+        {
+            Cost = function.Calculate(Position.ToArray());
         }
     }
 }

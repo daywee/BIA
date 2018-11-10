@@ -40,6 +40,12 @@ namespace Lesson05
             }
         }
 
+        public override string ToString()
+        {
+            var positions = _x.Select((e, i) => $"x{i}: {e:0.000}");
+            return string.Join(", ", positions);
+        }
+
         #region Operators
         public static Vector operator +(Vector a, Vector b)
         {
