@@ -2,6 +2,7 @@
 
 namespace Shared.TestFunctions
 {
+    // todo: when minx and maxx are not opposite, there is a problem with population generation
     public class RosenbrockFunction : FunctionBase
     {
         public override string Name { get; } = "Rosenbrock";
