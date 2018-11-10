@@ -3,6 +3,7 @@ using Shared.TestFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lesson05.OptimizationAlgorithms;
 
 namespace Lesson05
 {

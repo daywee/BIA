@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lesson05
+namespace Lesson05.OptimizationAlgorithms
 {
     public class HillClimbingAlgorithm : IAlgorithm<Individual>
     {

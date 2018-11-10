@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Lesson05
+namespace Lesson05.OptimizationAlgorithms
 {
     public interface IAlgorithm
     {
     }
 
-    public interface IAlgorithm<TIndividual> : IAlgorithm where TIndividual: Individual, new()
+    public interface IAlgorithm<TIndividual> : IAlgorithm where TIndividual : Individual, new()
     {
         int MaxPopulation { get; }
         int SeedingPopulationCount { get; }

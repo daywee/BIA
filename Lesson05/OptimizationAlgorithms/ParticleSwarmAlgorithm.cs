@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Shared.ExtensionMethods;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Shared.ExtensionMethods;
 
-namespace Lesson05
+namespace Lesson05.OptimizationAlgorithms
 {
     // mel by taky obsahovat setrvacnost?
     public class ParticleSwarmAlgorithm : IAlgorithm<ParticleSwarmIndividual>

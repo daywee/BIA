@@ -1,4 +1,5 @@
-﻿using Shared.TestFunctions;
+﻿using Lesson05.OptimizationAlgorithms;
+using Shared.TestFunctions;
 using System;
 
 namespace Lesson05

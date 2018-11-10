@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lesson05
+namespace Lesson05.OptimizationAlgorithms
 {
     public class SomaAlgorithm : IAlgorithm<Individual>
     {

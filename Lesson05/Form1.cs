@@ -1,5 +1,6 @@
 ﻿using ILNumerics.Drawing;
 using ILNumerics.Drawing.Plotting;
+using Lesson05.OptimizationAlgorithms;
 using Shared.ExtensionMethods;
 using Shared.TestFunctions;
 using System;
