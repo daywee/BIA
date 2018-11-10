@@ -35,11 +35,15 @@ namespace Lesson05.OptimizationAlgorithms
 
                     individual.Velocity = new Vector(randomVelocity);
                     individual.PersonalBestPosition = individual.Position;
+                    individual.PersonalBestCost = individual.Cost;
                     return individual;
                 })
                 .ToList();
         }
 
+        // todo: improve swarm to converge
+        // I think the problem is when bounds are applied, some individuals are randomly placed and make swarm to move randomly too
+        // solution might be to change learning factors
         public List<ParticleSwarmIndividual> GeneratePopulation(Population<ParticleSwarmIndividual> population)
         {
             var newPopulation = new List<ParticleSwarmIndividual>();
@@ -66,10 +70,16 @@ namespace Lesson05.OptimizationAlgorithms
                 newIndividual.ApplyBounds(population.OptimizationFunction, _random);
                 newIndividual.CalculateCost(population.OptimizationFunction);
 
-                if (newIndividual.Cost > individual.Cost)
+                if (newIndividual.Cost > individual.PersonalBestCost)
+                {
                     newIndividual.PersonalBestPosition = newIndividual.Position;
+                    newIndividual.PersonalBestCost = newIndividual.Cost;
+                }
                 else
+                {
                     newIndividual.PersonalBestPosition = individual.Position;
+                    newIndividual.PersonalBestCost = individual.PersonalBestCost;
+                }
 
                 newPopulation.Add(newIndividual);
             }
