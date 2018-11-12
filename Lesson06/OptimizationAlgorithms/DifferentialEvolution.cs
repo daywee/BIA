@@ -54,7 +54,7 @@ namespace Lesson06.OptimizationAlgorithms
 
             for (int i = 0; i < 3; i++)
             {
-                var chosen = remaining[(int)_random.NextDouble() * remaining.Count];
+                var chosen = remaining[(int)(_random.NextDouble() * remaining.Count)];
                 remaining.Remove(chosen);
                 chosenVectors.Add(chosen.Position);
             }
@@ -72,7 +72,7 @@ namespace Lesson06.OptimizationAlgorithms
             var trialVector = new Vector(noiseVector.ToArray());
             for (int i = 0; i < dimension; i++)
             {
-                if (_random.NextDouble() < _crossover)
+                if (_random.NextDouble() >= _crossover)
                 {
                     trialVector[i] = individual.Position[i];
                 }
