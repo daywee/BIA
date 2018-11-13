@@ -54,8 +54,10 @@ namespace Lesson06
                 return new Population<Individual>(_function, new SimulatedAnnealingAlgorithm(), _dimension, _optimizationTarget);
             if (_algorithmType == typeof(SomaAlgorithm))
                 return new Population<Individual>(_function, new SomaAlgorithm(), _dimension, _optimizationTarget);
-            if (_algorithmType == typeof(DifferentialEvolution))
-                return new Population<Individual>(_function, new DifferentialEvolution(), _dimension, _optimizationTarget);
+            if (_algorithmType == typeof(DifferentialEvolutionRand))
+                return new Population<Individual>(_function, new DifferentialEvolutionRand(), _dimension, _optimizationTarget);
+            if (_algorithmType == typeof(DifferentialEvolutionCurrentToBest))
+                return new Population<Individual>(_function, new DifferentialEvolutionCurrentToBest(), _dimension, _optimizationTarget);
 
             throw new InvalidOperationException();
         }

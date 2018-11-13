@@ -105,7 +105,7 @@ namespace Lesson06
                 .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
-            new[] { "DE", "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
+            new[] { "DE/rand/1", "DE/current-to-best/1", "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
                 .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
             algorithmsComboBox.SelectedIndex = 0;
         }
@@ -205,8 +205,11 @@ namespace Lesson06
                 case "Particle Swarm":
                     builder.WithAlgorithm<ParticleSwarmAlgorithm>();
                     break;
-                case "DE":
-                    builder.WithAlgorithm<DifferentialEvolution>();
+                case "DE/rand/1":
+                    builder.WithAlgorithm<DifferentialEvolutionRand>();
+                    break;
+                case "DE/current-to-best/1":
+                    builder.WithAlgorithm<DifferentialEvolutionCurrentToBest>();
                     break;
                 default:
                     throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
