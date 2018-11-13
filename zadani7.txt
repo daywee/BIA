@@ -1,0 +1,15 @@
+dvoubodove krizeni
+
+krizim dva
+
+A|BC|D
+B|AC|D
+----
+A|BC|D
+
+beru
+A..D
+doplnim nepouzite symboly
+
+nahodna mutace (5, 10%)
+pro kazdy bod spocitam rand a pokud to vyjde, tak ho vymenim s rand bodem
