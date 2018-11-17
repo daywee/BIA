@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             this.renderContainer = new System.Windows.Forms.Panel();
-            this.functionsComboBox = new System.Windows.Forms.ComboBox();
+            this.tspProblemsComboBox = new System.Windows.Forms.ComboBox();
             this.evolveButton = new System.Windows.Forms.Button();
             this.newPopulationButton = new System.Windows.Forms.Button();
             this.generationLabel = new System.Windows.Forms.Label();
             this.generationTitleLabel = new System.Windows.Forms.Label();
-            this.evolveFiftyTimesButton = new System.Windows.Forms.Button();
             this.algorithmsComboBox = new System.Windows.Forms.ComboBox();
             this.distanceTitleLabel = new System.Windows.Forms.Label();
             this.distanceLabel = new System.Windows.Forms.Label();
@@ -50,14 +49,14 @@
             this.renderContainer.Size = new System.Drawing.Size(1436, 631);
             this.renderContainer.TabIndex = 0;
             // 
-            // functionsComboBox
+            // tspProblemsComboBox
             // 
-            this.functionsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.functionsComboBox.FormattingEnabled = true;
-            this.functionsComboBox.Location = new System.Drawing.Point(13, 13);
-            this.functionsComboBox.Name = "functionsComboBox";
-            this.functionsComboBox.Size = new System.Drawing.Size(193, 21);
-            this.functionsComboBox.TabIndex = 1;
+            this.tspProblemsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tspProblemsComboBox.FormattingEnabled = true;
+            this.tspProblemsComboBox.Location = new System.Drawing.Point(13, 13);
+            this.tspProblemsComboBox.Name = "tspProblemsComboBox";
+            this.tspProblemsComboBox.Size = new System.Drawing.Size(193, 21);
+            this.tspProblemsComboBox.TabIndex = 1;
             // 
             // evolveButton
             // 
@@ -95,15 +94,6 @@
             this.generationTitleLabel.TabIndex = 5;
             this.generationTitleLabel.Text = "Generation:";
             // 
-            // evolveFiftyTimesButton
-            // 
-            this.evolveFiftyTimesButton.Location = new System.Drawing.Point(617, 13);
-            this.evolveFiftyTimesButton.Name = "evolveFiftyTimesButton";
-            this.evolveFiftyTimesButton.Size = new System.Drawing.Size(75, 23);
-            this.evolveFiftyTimesButton.TabIndex = 6;
-            this.evolveFiftyTimesButton.Text = "Evolve 50x";
-            this.evolveFiftyTimesButton.UseVisualStyleBackColor = true;
-            // 
             // algorithmsComboBox
             // 
             this.algorithmsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -139,12 +129,11 @@
             this.Controls.Add(this.distanceLabel);
             this.Controls.Add(this.distanceTitleLabel);
             this.Controls.Add(this.algorithmsComboBox);
-            this.Controls.Add(this.evolveFiftyTimesButton);
             this.Controls.Add(this.generationTitleLabel);
             this.Controls.Add(this.generationLabel);
             this.Controls.Add(this.newPopulationButton);
             this.Controls.Add(this.evolveButton);
-            this.Controls.Add(this.functionsComboBox);
+            this.Controls.Add(this.tspProblemsComboBox);
             this.Controls.Add(this.renderContainer);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -156,12 +145,11 @@
         #endregion
 
         private System.Windows.Forms.Panel renderContainer;
-        private System.Windows.Forms.ComboBox functionsComboBox;
+        private System.Windows.Forms.ComboBox tspProblemsComboBox;
         private System.Windows.Forms.Button evolveButton;
         private System.Windows.Forms.Button newPopulationButton;
         private System.Windows.Forms.Label generationLabel;
         private System.Windows.Forms.Label generationTitleLabel;
-        private System.Windows.Forms.Button evolveFiftyTimesButton;
         private System.Windows.Forms.ComboBox algorithmsComboBox;
         private System.Windows.Forms.Label distanceTitleLabel;
         private System.Windows.Forms.Label distanceLabel;

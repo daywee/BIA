@@ -1,6 +1,4 @@
-﻿using Lesson06;
-
-namespace Lesson07
+﻿namespace Lesson07
 {
     public class City
     {

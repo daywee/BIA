@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using Shared.ExtensionMethods;
+using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -8,33 +10,16 @@ namespace Lesson07
     {
         private Population _population;
         private readonly Timer _evolveTimer;
-        private int _evolveTimerTicks;
 
         public Form1()
         {
             InitializeComponent();
-            //InitFunctionsComboBox();
+            InitAlgorithmsComboBox();
+            InitTspProblemsComboBox();
             _evolveTimer = new Timer { Interval = 1 };
-            //InitEventListeners();
+            InitEventListeners();
 
             _population = GetPopulation();
-
-            renderContainer.Paint += (o, e) => PaintGraph(e.Graphics);
-
-            _evolveTimerTicks = 0;
-            _evolveTimer.Tick += (o, e) =>
-            {
-                if (_evolveTimerTicks++ > 10000)
-                {
-                    _evolveTimer.Stop();
-                }
-                _population.Evolve();
-                renderContainer.Refresh();
-                generationLabel.Text = _evolveTimerTicks.ToString();
-                distanceLabel.Text = _population.BestSequence.Cost.ToString();
-            };
-
-            _evolveTimer.Start();
         }
 
         private void PaintGraph(Graphics g)
@@ -61,94 +46,104 @@ namespace Lesson07
             DrawRoute(_population.BestSequence.Cities.First(), _population.BestSequence.Cities.Last());
         }
 
+        private void InitTspProblemsComboBox()
+        {
+            new[] { "TSP problem 1" }
+                .ForEach(algorithm => tspProblemsComboBox.Items.Add(algorithm));
+            tspProblemsComboBox.SelectedIndex = 0;
+        }
 
-        //private void RenderPopulation()
-        //{
-        //    var points = new float[_population.CurrentPopulation.Count, _population.Dimensions + 1];
-        //    for (var i = 0; i < _population.CurrentPopulation.Count; i++)
-        //    {
-        //        var individual = _population.CurrentPopulation[i];
-        //        points[i, 0] = (float)individual.Position[0];
-        //        points[i, 1] = (float)individual.Position[1];
-        //        points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
-        //    }
+        private void InitAlgorithmsComboBox()
+        {
+            new[] { "Genetic algorithm" }
+                .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
+            algorithmsComboBox.SelectedIndex = 0;
 
-        //    renderContainer.Refresh();
-        //}
+        }
 
+        private void RenderPopulation()
+        {
+            renderContainer.Refresh();
+        }
 
-        //private void InitFunctionsComboBox()
-        //{
-        //    functionsComboBox.SelectedIndex = 0;
+        private void InitEventListeners()
+        {
+            void HandleEvolve(object sender, EventArgs args)
+            {
+                _population.Evolve();
+                RenderPopulation();
+                generationLabel.Text = _population.Generation.ToString();
+                distanceLabel.Text = _population.BestSequence.Cost.ToString();
+            }
 
-        //    new[] { "DE/rand/1", "DE/current-to-best/1", "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
-        //        .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
-        //    algorithmsComboBox.SelectedIndex = 0;
-        //}
+            void HandleAutoEvolutionStopped()
+            {
+                _evolveTimer.Stop();
+                evolveButton.Text = "Evolve";
+            }
 
-        //private void InitEventListeners()
-        //{
-        //    void HandleEvolve(object sender, EventArgs args)
-        //    {
-        //        _population.Evolve();
-        //        RenderPopulation();
-        //        generationLabel.Text = _population.Generation.ToString();
-        //    }
+            void HandleAutoEvolutionStarted()
+            {
+                _evolveTimer.Start();
+                evolveButton.Text = "Stop";
+            }
 
-        //    void HandleAutoEvolutionStopped()
-        //    {
-        //        _evolveTimer.Stop();
-        //        _evolveTimerTicks = 0;
-        //        evolveFiftyTimesButton.Text = "Evolve 50x";
-        //    }
+            void HandleSettingsChanged(object sender, EventArgs e)
+            {
+                HandleAutoEvolutionStopped();
+                _population = GetPopulation();
+                RenderPopulation();
+            }
 
-        //    _evolveTimer.Tick += (o, e) =>
-        //    {
-        //        _evolveTimerTicks++;
-        //        if (_evolveTimerTicks >= 50)
-        //            HandleAutoEvolutionStopped();
+            _evolveTimer.Tick += HandleEvolve;
 
-        //        HandleEvolve(o, e);
-        //    };
+            tspProblemsComboBox.SelectedIndexChanged += HandleSettingsChanged;
 
-        //    functionsComboBox.SelectedIndexChanged += (o, e) =>
-        //    {
-        //        _population = GetPopulation();
-        //        RenderFunction();
-        //    };
+            algorithmsComboBox.SelectedIndexChanged += HandleSettingsChanged;
 
-        //    algorithmsComboBox.SelectedIndexChanged += (o, e) =>
-        //    {
-        //        _population = GetPopulation();
-        //        RenderFunction();
-        //    };
+            newPopulationButton.Click += (o, e) =>
+            {
+                _population.CreateNewPopulation();
+                RenderPopulation();
+                generationLabel.Text = _population.Generation.ToString();
+            };
 
-        //    newPopulationButton.Click += (o, e) =>
-        //    {
-        //        _population.CreateNewPopulation();
-        //        RenderPopulation();
-        //        generationLabel.Text = _population.Generation.ToString();
-        //    };
+            evolveButton.Click += (o, e) =>
+            {
+                if (_evolveTimer.Enabled)
+                    HandleAutoEvolutionStopped();
+                else
+                    HandleAutoEvolutionStarted();
+            };
 
-        //    evolveButton.Click += HandleEvolve;
-
-        //    evolveFiftyTimesButton.Click += (o, e) =>
-        //    {
-        //        if (_evolveTimer.Enabled)
-        //        {
-        //            HandleAutoEvolutionStopped();
-        //        }
-        //        else
-        //        {
-        //            _evolveTimer.Start();
-        //            evolveFiftyTimesButton.Text = "Stop";
-        //        }
-        //    };
-        //}
+            renderContainer.Paint += (o, e) => PaintGraph(e.Graphics);
+        }
 
         private Population GetPopulation()
         {
-            return new Population(CitiesSequence.GetDefaultSequence(), new GeneticAlgorithm());
+            string algorithmName = (string)algorithmsComboBox.SelectedItem;
+            string tspProblemName = (string)tspProblemsComboBox.SelectedItem;
+
+            IAlgorithm algorithm;
+            CitiesSequence citiesSequence;
+            switch (algorithmName)
+            {
+                case "Genetic algorithm":
+                    algorithm = new GeneticAlgorithm();
+                    break;
+                default:
+                    throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
+            }
+            switch (tspProblemName)
+            {
+                case "TSP problem 1":
+                    citiesSequence = CitiesSequence.GetDefaultSequence();
+                    break;
+                default:
+                    throw new InvalidOperationException($"TSP problem '{tspProblemName}' is not supported.");
+            }
+
+            return new Population(citiesSequence, algorithm);
         }
     }
 }

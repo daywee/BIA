@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lesson06
+namespace Lesson07
 {
     public class Vector
     {
