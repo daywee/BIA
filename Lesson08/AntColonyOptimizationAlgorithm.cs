@@ -12,7 +12,7 @@ namespace Lesson08
 
         private const double Alpha = 0.2;
         private const double Beta = 0.6;
-        private const double Ro = 0.6;
+        private const double Ro = 0.01; // original 0.6
 
         private readonly Matrix _pheromoneMatrix;
         private readonly Matrix _distanceMatrix;
@@ -40,7 +40,7 @@ namespace Lesson08
                 var currentCity = city;
                 var antTour = new CitiesSequence();
                 antTour.Cities.Add(currentCity);
-                var otherCities = Cities.Except(new[] { city }).ToList();
+                var otherCities = Cities.Except(new[] { currentCity }).ToList();
 
                 while (otherCities.Count > 0)
                 {
@@ -70,7 +70,9 @@ namespace Lesson08
                 for (int i = 0; i < tour.Cities.Count - 1; i++)
                 {
                     double tao = 1 / tour.Cost;
-                    _pheromoneMatrix[i, i + 1] = tao;
+                    var c1 = tour.Cities[i];
+                    var c2 = tour.Cities[i + 1];
+                    _pheromoneMatrix[c1.Id, c2.Id] += tao;
                 }
             }
         }
@@ -80,10 +82,8 @@ namespace Lesson08
             int ChooseIntervalIndex(double randomNumber, double[] intervals)
             {
                 for (int i = 0; i < intervals.Length; i++)
-                {
                     if (randomNumber <= intervals[i])
                         return i;
-                }
 
                 throw new InvalidOperationException();
             }

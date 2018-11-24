@@ -1,5 +1,8 @@
-﻿namespace Lesson08
+﻿using System.Diagnostics;
+
+namespace Lesson08
 {
+    [DebuggerDisplay("{Id}: {Position}")]
     public class City
     {
         public int Id { get; set; }
