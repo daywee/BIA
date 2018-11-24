@@ -49,6 +49,7 @@ namespace Lesson07
             bounds = bounds.OrderBy(e => e).ToArray();
 
             var availableCities = s1.Cities.ToList();
+            var usedCities = new List<City>();
 
             var newSequence = new City[s1.Cities.Count];
             for (int i = 0; i < s1.Cities.Count; i++)
@@ -58,14 +59,26 @@ namespace Lesson07
                 {
                     newSequence[i] = s1.Cities[i];
                     availableCities.Remove(s1.Cities[i]);
+                    usedCities.Add(s1.Cities[i]);
                 }
             }
 
             // fill unused cities between bounds
             for (int i = bounds[0]; i < bounds[1]; i++)
             {
-                newSequence[i] = availableCities.First();
-                availableCities.RemoveAt(0);
+                var tryCity = s2.Cities[i];
+                if (usedCities.Contains(tryCity))
+                {
+                    newSequence[i] = availableCities.First();
+                    availableCities.RemoveAt(0);
+                    usedCities.Add(newSequence[i]);
+                }
+                else
+                {
+                    newSequence[i] = tryCity;
+                    availableCities.Remove(tryCity);
+                    usedCities.Add(tryCity);
+                }
             }
 
             var result = new CitiesSequence();
