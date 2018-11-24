@@ -37,5 +37,12 @@ namespace Lesson08
                 _table[j, i] = value;
             }
         }
+
+        public void MultiplyBy(double x)
+        {
+            for (int i = 0; i < Dimension; i++)
+                for (int j = 0; j < Dimension; j++)
+                    _table[i, j] *= x;
+        }
     }
 }

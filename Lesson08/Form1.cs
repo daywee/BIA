@@ -55,10 +55,9 @@ namespace Lesson08
 
         private void InitAlgorithmsComboBox()
         {
-            new[] { "Genetic algorithm" }
+            new[] { "ACO", "Genetic algorithm" }
                 .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
             algorithmsComboBox.SelectedIndex = 0;
-
         }
 
         private void RenderPopulation()
@@ -126,14 +125,6 @@ namespace Lesson08
 
             IAlgorithm algorithm;
             CitiesSequence citiesSequence;
-            switch (algorithmName)
-            {
-                case "Genetic algorithm":
-                    algorithm = new GeneticAlgorithm();
-                    break;
-                default:
-                    throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
-            }
             switch (tspProblemName)
             {
                 case "TSP problem 1":
@@ -142,6 +133,18 @@ namespace Lesson08
                 default:
                     throw new InvalidOperationException($"TSP problem '{tspProblemName}' is not supported.");
             }
+            switch (algorithmName)
+            {
+                case "Genetic algorithm":
+                    algorithm = new GeneticAlgorithm();
+                    break;
+                case "ACO":
+                    algorithm = new AntColonyOptimizationAlgorithm(citiesSequence.Cities);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
+            }
+            
 
             return new Population(citiesSequence, algorithm);
         }

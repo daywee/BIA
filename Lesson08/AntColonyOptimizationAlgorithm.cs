@@ -33,70 +33,74 @@ namespace Lesson08
 
         public List<CitiesSequence> GeneratePopulation(Population population)
         {
-            var antTours = new List<List<City>>();
+            var antTours = new List<CitiesSequence>();
 
             foreach (var city in Cities)
             {
                 var currentCity = city;
-                var antTour = new List<City> { currentCity }; // todo: use cities sequence
+                var antTour = new CitiesSequence();
+                antTour.Cities.Add(currentCity);
                 var otherCities = Cities.Except(new[] { city }).ToList();
 
                 while (otherCities.Count > 0)
                 {
                     var chosenCity = ChooseCityToGo(currentCity, otherCities);
-                    antTour.Add(chosenCity);
+                    antTour.Cities.Add(chosenCity);
                     otherCities.Remove(chosenCity);
                     currentCity = chosenCity;
                 }
-                // todo: make last step
+                // todo: make last step (thats probably not necessary)
 
+                antTour.CalculateCost();
                 antTours.Add(antTour);
             }
 
             UpdatePheromoneTrail(antTours);
+
+            return antTours;
         }
 
-        private void UpdatePheromoneTrail(List<List<City>> tours)
+        private void UpdatePheromoneTrail(List<CitiesSequence> tours)
         {
+            // pheromone trail evaporation
+            _pheromoneMatrix.MultiplyBy(1 - Ro);
+
             foreach (var tour in tours)
             {
-                for (int i = 0; i < tour.Count - 1; i++)
+                for (int i = 0; i < tour.Cities.Count - 1; i++)
                 {
-                    double tao = _pheromoneMatrix[i, i + 1];
-
-                }
-            }
-
-
-
-            var notCalculated = new List<City>(cities);
-
-            foreach (var c1 in cities)
-            {
-                notCalculated.Remove(c1);
-                foreach (var c2 in notCalculated)
-                {
-                    double distance = c1.Position.EuclideanDistanceTo(c2.Position);
-                    _distanceMatrix[c1.Id, c2.Id] = distance;
+                    double tao = 1 / tour.Cost;
+                    _pheromoneMatrix[i, i + 1] = tao;
                 }
             }
         }
 
         private City ChooseCityToGo(City fromCity, List<City> citiesToGo)
         {
+            int ChooseIntervalIndex(double randomNumber, double[] intervals)
+            {
+                for (int i = 0; i < intervals.Length; i++)
+                {
+                    if (randomNumber <= intervals[i])
+                        return i;
+                }
+
+                throw new InvalidOperationException();
+            }
+
             var probabilisticValues = citiesToGo
                 .Select(cityToGo => CalculateProbabilisticValue(fromCity, cityToGo, citiesToGo))
                 .ToList();
 
-            var intervals = Enumerable.Range(0, probabilisticValues.Count)
+            // todo: might be good idea to set last interval to 1
+            var probabilisticValueIntervals = Enumerable.Range(0, probabilisticValues.Count)
                 .Select(i => probabilisticValues.Take(i + 1).Sum())
-                .ToList();
+                .ToArray();
 
-            // todo: check if sum always equals to 1
             double r = _random.NextDouble();
-            int chosenIntervalIndex = intervals.FindLastIndex(interval => interval <= r);
+            var chosenIndex = ChooseIntervalIndex(r, probabilisticValueIntervals);
 
-            return citiesToGo[chosenIntervalIndex];
+            return citiesToGo[chosenIndex];
         }
 
         private double CalculateProbabilisticValue(City fromCity, City toCity, List<City> allCities)
