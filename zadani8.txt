@@ -1,0 +1,15 @@
+spocitam si pravdepodobnosti pro kazdou cestu
+[.1, .1, .2, .6]
+
+udelam intervaly
+[.1, .2, .4, 1]
+
+prepocitam feromony (ale neupdatuju je globalne)
+
+tohle udelam pro celou cestu mravence
+
+tohle udelam pro kazdeho mravence
+
+updatuju feromony podle mravence s nejkratsi cestou
+
+tohle udelam pro n generaci
