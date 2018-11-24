@@ -33,10 +33,52 @@ namespace Lesson08
 
         public List<CitiesSequence> GeneratePopulation(Population population)
         {
+            var antTours = new List<List<City>>();
+
             foreach (var city in Cities)
             {
-                var otherCities = Cities.Except(new[] { city });
+                var currentCity = city;
+                var antTour = new List<City> { currentCity }; // todo: use cities sequence
+                var otherCities = Cities.Except(new[] { city }).ToList();
 
+                while (otherCities.Count > 0)
+                {
+                    var chosenCity = ChooseCityToGo(currentCity, otherCities);
+                    antTour.Add(chosenCity);
+                    otherCities.Remove(chosenCity);
+                    currentCity = chosenCity;
+                }
+                // todo: make last step
+
+                antTours.Add(antTour);
+            }
+
+            UpdatePheromoneTrail(antTours);
+        }
+
+        private void UpdatePheromoneTrail(List<List<City>> tours)
+        {
+            foreach (var tour in tours)
+            {
+                for (int i = 0; i < tour.Count - 1; i++)
+                {
+                    double tao = _pheromoneMatrix[i, i + 1];
+
+                }
+            }
+
+
+
+            var notCalculated = new List<City>(cities);
+
+            foreach (var c1 in cities)
+            {
+                notCalculated.Remove(c1);
+                foreach (var c2 in notCalculated)
+                {
+                    double distance = c1.Position.EuclideanDistanceTo(c2.Position);
+                    _distanceMatrix[c1.Id, c2.Id] = distance;
+                }
             }
         }
 
