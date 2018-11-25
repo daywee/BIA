@@ -10,9 +10,10 @@ namespace Lesson08
 
         public List<City> Cities { get; set; }
 
-        private const double Alpha = 0.4; // original 0.2
-        private const double Beta = 0.6;
-        private const double Ro = 0.2; // original 0.6
+        private const double Alpha = 3; // original 0.2
+        private const double Beta = 2; // original 0.6
+        private const double Rho = 0.01; // original 0.6
+        private const double Q = 2;
 
         private readonly Matrix _pheromoneMatrix;
         private readonly Matrix _distanceMatrix;
@@ -82,7 +83,7 @@ namespace Lesson08
         private void UpdatePheromoneTrail(List<CitiesSequence> tours)
         {
             // pheromone trail evaporation
-            _pheromoneMatrix.MultiplyBy(1 - Ro);
+            _pheromoneMatrix.MultiplyBy(1 - Rho);
 
             foreach (var tour in tours)
             {
@@ -129,7 +130,7 @@ namespace Lesson08
                 double pheromone = _pheromoneMatrix[a.Id, b.Id];
                 double distance = _distanceMatrix[a.Id, b.Id];
 
-                return Math.Pow(pheromone, Alpha) * Math.Pow(1 / distance, Beta);
+                return Math.Pow(pheromone, Alpha) * Math.Pow(Q / distance, Beta);
             }
 
             double upper = ValueBetweenTwoCities(fromCity, toCity);

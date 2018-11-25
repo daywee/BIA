@@ -48,13 +48,13 @@ namespace Lesson08
                     new City(180, 100, "K", 10),
                     new City(60, 80, "L", 11),
                     new City(120, 80, "M", 12),
-                    //new City(180, 60, "N", 13),
-                    //new City(20, 40, "O", 14),
-                    //new City(100, 40, "P", 15),
-                    //new City(200, 40, "Q", 16),
-                    //new City(20, 20, "R", 17),
-                    //new City(60, 20, "S", 18),
-                    //new City(160, 20, "T", 19)
+                    new City(180, 60, "N", 13),
+                    new City(20, 40, "O", 14),
+                    new City(100, 40, "P", 15),
+                    new City(200, 40, "Q", 16),
+                    new City(20, 20, "R", 17),
+                    new City(60, 20, "S", 18),
+                    new City(160, 20, "T", 19)
                 }
             };
         }
