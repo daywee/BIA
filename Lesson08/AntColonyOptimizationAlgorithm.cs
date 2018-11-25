@@ -10,20 +10,39 @@ namespace Lesson08
 
         public List<City> Cities { get; set; }
 
-        private const double Alpha = 0.2;
+        private const double Alpha = 0.4; // original 0.2
         private const double Beta = 0.6;
-        private const double Ro = 0.01; // original 0.6
+        private const double Ro = 0.2; // original 0.6
 
         private readonly Matrix _pheromoneMatrix;
         private readonly Matrix _distanceMatrix;
         private readonly Random _random = new Random();
 
+        private const bool PresentationTsp = false;
+
         public AntColonyOptimizationAlgorithm(IEnumerable<City> cities)
         {
-            Cities = cities.ToList();
-            _pheromoneMatrix = new Matrix(Cities.Count, 0.2);
-            _distanceMatrix = new Matrix(Cities.Count);
-            InitDistanceMatrix(Cities);
+            if (PresentationTsp)
+            {
+                Cities = new List<City>
+                {
+                    new City(10, 0, "A", 0),
+                    new City(100, 0, "B", 1),
+                    new City(40, 70, "C", 2),
+                    new City(0, 100, "D", 3),
+                    new City(90, 100, "E", 4),
+                };
+                _pheromoneMatrix = new Matrix(Cities.Count, 0.2);
+                _distanceMatrix = new Matrix(Cities.Count);
+                InitDistanceMatrix(Cities);
+            }
+            else
+            {
+                Cities = cities.ToList();
+                _pheromoneMatrix = new Matrix(Cities.Count, 0.2);
+                _distanceMatrix = new Matrix(Cities.Count);
+                InitDistanceMatrix(Cities);
+            }
         }
 
         public List<CitiesSequence> SeedPopulation(CitiesSequence baseSequence, int populationSize)
@@ -51,12 +70,12 @@ namespace Lesson08
                 }
                 // todo: make last step (thats probably not necessary)
 
-                antTour.CalculateCost();
+                antTour.CalculateCost(_distanceMatrix);
                 antTours.Add(antTour);
             }
 
             UpdatePheromoneTrail(antTours);
-
+            antTours.Add(population.BestSequence);
             return antTours;
         }
 
@@ -123,15 +142,37 @@ namespace Lesson08
 
         private void InitDistanceMatrix(List<City> cities)
         {
-            var notCalculated = new List<City>(cities);
-
-            foreach (var c1 in cities)
+            if (PresentationTsp)
             {
-                notCalculated.Remove(c1);
-                foreach (var c2 in notCalculated)
+                int A = 0;
+                int B = 1;
+                int C = 2;
+                int D = 3;
+                int E = 4;
+
+                _distanceMatrix[A, B] = 100;
+                _distanceMatrix[A, D] = 50;
+                _distanceMatrix[A, E] = 70;
+                _distanceMatrix[A, C] = 60;
+                _distanceMatrix[B, E] = 60;
+                _distanceMatrix[B, C] = 60;
+                _distanceMatrix[B, D] = 70;
+                _distanceMatrix[C, D] = 90;
+                _distanceMatrix[C, E] = 40;
+                _distanceMatrix[D, E] = 150;
+            }
+            else
+            {
+                var notCalculated = new List<City>(cities);
+
+                foreach (var c1 in cities)
                 {
-                    double distance = c1.Position.EuclideanDistanceTo(c2.Position);
-                    _distanceMatrix[c1.Id, c2.Id] = distance;
+                    notCalculated.Remove(c1);
+                    foreach (var c2 in notCalculated)
+                    {
+                        double distance = c1.Position.EuclideanDistanceTo(c2.Position);
+                        _distanceMatrix[c1.Id, c2.Id] = distance;
+                    }
                 }
             }
         }

@@ -37,6 +37,8 @@
             this.algorithmsComboBox = new System.Windows.Forms.ComboBox();
             this.distanceTitleLabel = new System.Windows.Forms.Label();
             this.distanceLabel = new System.Windows.Forms.Label();
+            this.tourTitleLabel = new System.Windows.Forms.Label();
+            this.tourLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // renderContainer
@@ -121,11 +123,31 @@
             this.distanceLabel.TabIndex = 16;
             this.distanceLabel.Text = "0";
             // 
+            // tourTitleLabel
+            // 
+            this.tourTitleLabel.AutoSize = true;
+            this.tourTitleLabel.Location = new System.Drawing.Point(883, 69);
+            this.tourTitleLabel.Name = "tourTitleLabel";
+            this.tourTitleLabel.Size = new System.Drawing.Size(32, 13);
+            this.tourTitleLabel.TabIndex = 17;
+            this.tourTitleLabel.Text = "Tour:";
+            // 
+            // tourLabel
+            // 
+            this.tourLabel.AutoSize = true;
+            this.tourLabel.Location = new System.Drawing.Point(951, 69);
+            this.tourLabel.Name = "tourLabel";
+            this.tourLabel.Size = new System.Drawing.Size(13, 13);
+            this.tourLabel.TabIndex = 18;
+            this.tourLabel.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1460, 758);
+            this.Controls.Add(this.tourLabel);
+            this.Controls.Add(this.tourTitleLabel);
             this.Controls.Add(this.distanceLabel);
             this.Controls.Add(this.distanceTitleLabel);
             this.Controls.Add(this.algorithmsComboBox);
@@ -153,6 +175,8 @@
         private System.Windows.Forms.ComboBox algorithmsComboBox;
         private System.Windows.Forms.Label distanceTitleLabel;
         private System.Windows.Forms.Label distanceLabel;
+        private System.Windows.Forms.Label tourTitleLabel;
+        private System.Windows.Forms.Label tourLabel;
     }
 }
 

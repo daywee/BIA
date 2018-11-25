@@ -35,7 +35,7 @@ namespace Lesson08
                 g.DrawLine(Pens.Black, (float)first.Position[0], (float)first.Position[1], (float)second.Position[0], (float)second.Position[1]);
             }
 
-            _population.BaseCitiesSequence.Cities.ForEach(DrawCity);
+            _population.BestSequence.Cities.ForEach(DrawCity);
 
             for (int i = 0; i < _population.BestSequence.Cities.Count - 1; i++)
             {
@@ -73,6 +73,7 @@ namespace Lesson08
                 RenderPopulation();
                 generationLabel.Text = _population.Generation.ToString();
                 distanceLabel.Text = _population.BestSequence.Cost.ToString();
+                tourLabel.Text = string.Join(", ", _population.BestSequence.Cities.Select(e => e.Name));
             }
 
             void HandleAutoEvolutionStopped()
@@ -109,6 +110,7 @@ namespace Lesson08
 
             evolveButton.Click += (o, e) =>
             {
+                //HandleEvolve(o,e);
                 if (_evolveTimer.Enabled)
                     HandleAutoEvolutionStopped();
                 else
