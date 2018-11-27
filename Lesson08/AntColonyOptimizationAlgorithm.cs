@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Lesson08
@@ -130,7 +131,11 @@ namespace Lesson08
                 double pheromone = _pheromoneMatrix[a.Id, b.Id];
                 double distance = _distanceMatrix[a.Id, b.Id];
 
-                return Math.Pow(pheromone, Alpha) * Math.Pow(Q / distance, Beta);
+                var result = Math.Pow(pheromone, Alpha) * Math.Pow(Q / distance, Beta);
+                if (double.IsInfinity(result))
+                    Debugger.Break();
+
+                return result;
             }
 
             double upper = ValueBetweenTwoCities(fromCity, toCity);

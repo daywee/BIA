@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Lesson08
@@ -56,6 +58,22 @@ namespace Lesson08
                     new City(60, 20, "S", 18),
                     new City(160, 20, "T", 19)
                 }
+            };
+        }
+
+        public static CitiesSequence GetAtt48()
+        {
+            var cities = File.ReadAllLines("../../../Datasets/TSP/att48.tsp")
+                .Skip(6)
+                .Take(48)
+                .Select(line => line.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries))
+                .Select(values => new { X = int.Parse(values[1]) / 10, Y = int.Parse(values[2]) / 10 })
+                .Select((value, i) => new City(value.X, value.Y, i.ToString(), i))
+                .ToList();
+
+            return new CitiesSequence
+            {
+                Cities = cities
             };
         }
     }
