@@ -1,0 +1,21 @@
+ES(1+1)
+
+X+N(0, sigma)
+
+dalsi generace jen jedinci co se vylepsili
+nebo
+vylepsene a nenahrazene rodice
+
+na zkousku:
+pta se casto, co znamena mu (rodic), lambda (potomek), plus (+), carka (,)
+
+========================================================================================================================
+
+NP=20
+
+potomek:
+  y = x + N(0, sigma)
+
+sjednoceni a vezmu NP nejlepsich potomku
+
+sleduju, kolik se jich zlepsilo a podle toho upravuju sigma
