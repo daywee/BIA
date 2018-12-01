@@ -58,6 +58,8 @@
     <Compile Include="Individual.cs" />
     <Compile Include="OptimizationAlgorithms\DifferentialEvolutionCurrentToBest.cs" />
     <Compile Include="OptimizationAlgorithms\DifferentialEvolutionRand.cs" />
+    <Compile Include="OptimizationAlgorithms\EvolutionaryStrategyAlgorithmMuPlusLambda.cs" />
+    <Compile Include="OptimizationAlgorithms\EvolutionaryStrategyAlgorithm1Plus1.cs" />
     <Compile Include="OptimizationAlgorithms\HillClimbingAlgorithm.cs" />
     <Compile Include="OptimizationAlgorithms\IAlgorithm.cs" />
     <Compile Include="OptimizationAlgorithms\ParticleSwarmAlgorithm.cs" />

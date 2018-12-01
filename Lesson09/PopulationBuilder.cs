@@ -58,6 +58,10 @@ namespace Lesson09
                 return new Population<Individual>(_function, new DifferentialEvolutionRand(), _dimension, _optimizationTarget);
             if (_algorithmType == typeof(DifferentialEvolutionCurrentToBest))
                 return new Population<Individual>(_function, new DifferentialEvolutionCurrentToBest(), _dimension, _optimizationTarget);
+            if (_algorithmType == typeof(EvolutionaryStrategyAlgorithm1Plus1))
+                return new Population<Individual>(_function, new EvolutionaryStrategyAlgorithm1Plus1(), _dimension, _optimizationTarget);
+            if (_algorithmType == typeof(EvolutionaryStrategyAlgorithmMuPlusLambda))
+                return new Population<Individual>(_function, new EvolutionaryStrategyAlgorithmMuPlusLambda(), _dimension, _optimizationTarget);
 
             throw new InvalidOperationException();
         }
