@@ -15,5 +15,13 @@ namespace Lesson08
             Name = name;
             Id = id;
         }
+
+        public City(double x, double y, string name, int id)
+        {
+
+            Position = new Vector(new[] { x, y });
+            Name = name;
+            Id = id;
+        }
     }
 }

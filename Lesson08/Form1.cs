@@ -48,7 +48,7 @@ namespace Lesson08
 
         private void InitTspProblemsComboBox()
         {
-            new[] { "TSP problem 1", "att48" }
+            new[] { "TSP problem 1", "att48", "ali535" }
                 .ForEach(algorithm => tspProblemsComboBox.Items.Add(algorithm));
             tspProblemsComboBox.SelectedIndex = 0;
         }
@@ -134,6 +134,9 @@ namespace Lesson08
                     break;
                 case "att48":
                     citiesSequence = CitiesSequence.GetAtt48();
+                    break;
+                case "ali535":
+                    citiesSequence = CitiesSequence.GetAli535();
                     break;
                 default:
                     throw new InvalidOperationException($"TSP problem '{tspProblemName}' is not supported.");

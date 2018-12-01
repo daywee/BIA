@@ -76,5 +76,20 @@ namespace Lesson08
                 Cities = cities
             };
         }
+
+        public static CitiesSequence GetAli535()
+        {
+            var cities = File.ReadAllLines("../../../Datasets/TSP/ali535.tsp")
+                .Skip(7)
+                .Take(535)
+                .Select(line => line.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).Select(e => e.Replace('.',',')).ToArray())
+                .Select((values, i) => new City(double.Parse(values[1]) * 10, double.Parse(values[2]) * 10, i.ToString(), i))
+                .ToList();
+
+            return new CitiesSequence
+            {
+                Cities = cities
+            };
+        }
     }
 }
