@@ -88,11 +88,17 @@ namespace Lesson08
 
             foreach (var tour in tours)
             {
+                double tao = 1 / tour.Cost;
                 for (int i = 0; i < tour.Cities.Count - 1; i++)
                 {
-                    double tao = 1 / tour.Cost;
                     var c1 = tour.Cities[i];
                     var c2 = tour.Cities[i + 1];
+                    _pheromoneMatrix[c1.Id, c2.Id] += tao;
+                }
+
+                {
+                    var c1 = tour.Cities[0];
+                    var c2 = tour.Cities.Last();
                     _pheromoneMatrix[c1.Id, c2.Id] += tao;
                 }
             }
