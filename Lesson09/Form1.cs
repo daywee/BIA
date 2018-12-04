@@ -105,7 +105,7 @@ namespace Lesson09
                 .ForEach(func => functionsComboBox.Items.Add(func.Name));
             functionsComboBox.SelectedIndex = 0;
 
-            new[] { "ES (1+1)", "ES (μ+λ)", "DE/rand/1", "DE/current-to-best/1", "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
+            new[] { "ES (μ,λ)", "ES (μ+λ)", "DE/rand/1", "DE/current-to-best/1", "Particle Swarm", "Hill Climbing", "Simulated Annealing", "SOMA" }
                 .ForEach(algorithm => algorithmsComboBox.Items.Add(algorithm));
             algorithmsComboBox.SelectedIndex = 0;
         }
@@ -211,8 +211,8 @@ namespace Lesson09
                 case "DE/current-to-best/1":
                     builder.WithAlgorithm<DifferentialEvolutionCurrentToBest>();
                     break;
-                case "ES (1+1)":
-                    builder.WithAlgorithm<EvolutionaryStrategyAlgorithm1Plus1>();
+                case "ES (μ,λ)":
+                    builder.WithAlgorithm<EvolutionaryStrategyAlgorithmMuCommaLambda>();
                     break;
                 case "ES (μ+λ)":
                     builder.WithAlgorithm<EvolutionaryStrategyAlgorithmMuPlusLambda>();

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Lesson09.OptimizationAlgorithms
 {
-    public class EvolutionaryStrategyAlgorithm1Plus1 : IAlgorithm<Individual>
+    public class EvolutionaryStrategyAlgorithmMuCommaLambda : IAlgorithm<Individual>
     {
         public int MaxPopulation { get; } = 20;
 
