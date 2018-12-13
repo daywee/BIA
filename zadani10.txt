@@ -1,0 +1,9 @@
+udelat trizeni do front
+crowding delat nemusime
+
+postup:
+1. vygeneruju rodice (NP)
+2. vygeneruju stejny pocet deti (NP)
+3. roztridim do front (ranku)
+4. nova populace (NP)
+  - vybiram prvni reseni z kazdeho ranku (myslim)

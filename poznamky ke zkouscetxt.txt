@@ -1,0 +1,28 @@
+pta se zelinka
+
+rozdeleni funkci
+multimodalni... vice extremu...
+
+lenka se pta
+blind search neni lokalni prohledavani!!!
+lokalni prohledavani (hill climbing), simulovane zihani, tabu search
+DE - jak se generuje mutacni vektor, ktere konstanty co ovlivnuji
+  - na rozdil od ostatnich prijimame i potomky se stejne dobrym resenim
+genetak
+  - drive se pouzival na binarni cisla
+  - jak se to pouziva s realnymi cisly
+particle swarm optimization
+  - k cemu je vnitrni vaha
+druhy somy
+  - jake jsou vyhodne, nevyhodne
+  - umet spocit ohodnoceni ucelove funkce
+  - jak se lisi particle swarm od somy (co je k cemu lepsi)
+symbolicka regrese
+  - k cemu to je
+  - 3 druhy (gramaticka evoluce, analyticke programovani...)
+  - co je to codon
+  - co je to GFS (general function set)
+ant colony
+  - ant colony vs ant system
+paretova hranice
+NSGA tam nebude
