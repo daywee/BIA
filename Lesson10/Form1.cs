@@ -39,7 +39,7 @@ namespace Lesson10
 
         void RenderFunction()
         {
-            var function = _population.OptimizationFunction;
+            var function = _population.OptimizationFunction1;
             var surface = new ILSurface((x, y) => (float)function.Calculate(x, y),
                 xmin: (float)function.MinX, xmax: (float)function.MaxX,
                 ymin: (float)function.MinX, ymax: (float)function.MaxX,
@@ -58,13 +58,13 @@ namespace Lesson10
 
         private void RenderPopulation()
         {
-            var points = new float[_population.CurrentPopulation.Count, _population.Dimensions + 1];
+            var points = new float[_population.CurrentPopulation.Count, _population.Dimension + 1];
             for (var i = 0; i < _population.CurrentPopulation.Count; i++)
             {
                 var individual = _population.CurrentPopulation[i];
                 points[i, 0] = (float)individual.Position[0];
                 points[i, 1] = (float)individual.Position[1];
-                points[i, 2] = (float)individual.Cost + 1000; // render point higher then function
+                points[i, 2] = (float)individual.Cost1 + 1000; // render point higher then function
             }
 
             if (_points != null)
@@ -85,7 +85,7 @@ namespace Lesson10
         private void RenderBestIndividual()
         {
             var best = _population.BestIndividual;
-            var bestPoint = new[] { (float)best.Position[0], (float)best.Position[1], (float)best.Cost + 1500 }; // render point higher then function and other points
+            var bestPoint = new[] { (float)best.Position[0], (float)best.Position[1], (float)best.Cost1 + 1500 }; // render point higher then function and other points
 
             if (_bestPoint != null)
             {
@@ -119,8 +119,8 @@ namespace Lesson10
                 generationLabel.Text = _population.Generation.ToString();
                 var mean = _population.CalculateMean();
                 var best = _population.BestIndividual;
-                meanLabel.Text = $"Mean x: {mean.Position[0]} y: {mean.Position[1]}, cost: {mean.Cost}";
-                bestIndividualLabel.Text = $"Best x: {best.Position[0]} y: {best.Position[1]}, cost: {best.Cost}";
+                meanLabel.Text = $"Mean x: {mean.Position[0]} y: {mean.Position[1]}, cost: {mean.Cost1}";
+                bestIndividualLabel.Text = $"Best x: {best.Position[0]} y: {best.Position[1]}, cost: {best.Cost1}";
             }
 
             void HandleAutoEvolutionStopped()
@@ -172,86 +172,11 @@ namespace Lesson10
                     evolveFiftyTimesButton.Text = "Stop";
                 }
             };
-
-            standardDeviationTrackBar.ValueChanged += (o, e) =>
-            {
-                var x = standardDeviationTrackBar.Value / 10f;
-                _population.StandardDeviation = x;
-                standardDeviationValueLabel.Text = x.ToString(CultureInfo.InvariantCulture);
-            };
-
-            meanTrackBar.ValueChanged += (o, e) =>
-            {
-                var x = meanTrackBar.Value / 10f;
-                _population.Mean = x;
-                meanValueLabel.Text = x.ToString(CultureInfo.InvariantCulture);
-            };
         }
 
         private Population GetPopulation(string algorithmName, string optimizationFunctionName)
         {
-            var builder = PopulationBuilder.GetBuilder();
-            switch (algorithmName)
-            {
-                case "Hill Climbing":
-                    builder.WithAlgorithm<HillClimbingAlgorithm>();
-                    break;
-                case "Simulated Annealing":
-                    builder.WithAlgorithm<SimulatedAnnealingAlgorithm>();
-                    break;
-                case "SOMA":
-                    builder.WithAlgorithm<SomaAlgorithm>();
-                    break;
-                case "Particle Swarm":
-                    builder.WithAlgorithm<ParticleSwarmAlgorithm>();
-                    break;
-                case "DE/rand/1":
-                    builder.WithAlgorithm<DifferentialEvolutionRand>();
-                    break;
-                case "DE/current-to-best/1":
-                    builder.WithAlgorithm<DifferentialEvolutionCurrentToBest>();
-                    break;
-                case "ES (μ,λ)":
-                    builder.WithAlgorithm<EvolutionaryStrategyAlgorithmMuCommaLambda>();
-                    break;
-                case "ES (μ+λ)":
-                    builder.WithAlgorithm<EvolutionaryStrategyAlgorithmMuPlusLambda>();
-                    break;
-                default:
-                    throw new InvalidOperationException($"Algorithm '{algorithmName}' is not supported.");
-            }
-
-            switch (optimizationFunctionName)
-            {
-                case "Ackley":
-                    builder.WithOptimizationFunction<AckleyFunction>();
-                    break;
-                case "Booth":
-                    builder.WithOptimizationFunction<BoothFunction>();
-                    break;
-                case "Rosenbrock":
-                    builder.WithOptimizationFunction<RosenbrockFunction>();
-                    break;
-                case "Schwefel":
-                    builder.WithOptimizationFunction<SchwefelFunction>();
-                    break;
-                case "Sphere":
-                    builder.WithOptimizationFunction<SphereFunction>();
-                    break;
-                case "De Jong":
-                    builder.WithOptimizationFunction<DeJongFunction>();
-                    break;
-                case "Rastrigin":
-                    builder.WithOptimizationFunction<RastriginFunction>();
-                    break;
-                default:
-                    throw new InvalidOperationException($"Optimization function '{optimizationFunctionName}' is not supported.");
-            }
-
-            return builder
-                .WithDimension(2)
-                .WithOptimizationTarget(OptimizationTarget.Minimum)
-                .Build();
+            return new Population(new AckleyFunction(), new BoothFunction(), new Nsga2Algorithm(), 2); 
         }
     }
 }

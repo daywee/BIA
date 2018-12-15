@@ -7,7 +7,8 @@ namespace Lesson10
     public class Individual
     {
         public Vector Position;
-        public double Cost { get; set; }
+        public double Cost1 { get; set; }
+        public double Cost2 { get; set; }
 
         public Individual()
         {
@@ -27,10 +28,12 @@ namespace Lesson10
         {
             Position = coordinates;
         }
+        
 
-        public void CalculateCost(FunctionBase function)
+        public void CalculateCost(FunctionBase f1, FunctionBase f2)
         {
-            Cost = function.Calculate(Position.ToArray());
+            Cost1 = f1.Calculate(Position.ToArray());
+            Cost2 = f2.Calculate(Position.ToArray());
         }
 
         // random parameter is used to improve 'randomness'

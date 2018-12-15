@@ -56,18 +56,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Individual.cs" />
-    <Compile Include="OptimizationAlgorithms\DifferentialEvolutionCurrentToBest.cs" />
-    <Compile Include="OptimizationAlgorithms\DifferentialEvolutionRand.cs" />
-    <Compile Include="OptimizationAlgorithms\EvolutionaryStrategyAlgorithmMuCommaLambda.cs" />
-    <Compile Include="OptimizationAlgorithms\EvolutionaryStrategyAlgorithmMuPlusLambda.cs" />
-    <Compile Include="OptimizationAlgorithms\HillClimbingAlgorithm.cs" />
     <Compile Include="OptimizationAlgorithms\IAlgorithm.cs" />
-    <Compile Include="OptimizationAlgorithms\ParticleSwarmAlgorithm.cs" />
-    <Compile Include="OptimizationAlgorithms\SimulatedAnnealingAlgorithm.cs" />
-    <Compile Include="OptimizationAlgorithms\SomaAlgorithm.cs" />
-    <Compile Include="ParticleSwarmIndividual.cs" />
+    <Compile Include="OptimizationAlgorithms\Nsga2Algorithm.cs" />
     <Compile Include="Population.cs" />
-    <Compile Include="PopulationBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector.cs" />

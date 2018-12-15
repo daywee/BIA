@@ -1,83 +1,50 @@
-﻿using System;
+﻿using Lesson10.OptimizationAlgorithms;
+using Shared.TestFunctions;
 using System.Collections.Generic;
 using System.Linq;
-using Lesson10.OptimizationAlgorithms;
-using Shared.TestFunctions;
 
 namespace Lesson10
 {
-    public abstract class Population
+    public class Population
     {
-        public int Dimensions { get; }
-        public FunctionBase OptimizationFunction { get; }
+        public int Dimension { get; }
+        public FunctionBase OptimizationFunction1 { get; }
+        public FunctionBase OptimizationFunction2 { get; }
         public int Generation { get; protected set; }
         public List<Individual> CurrentPopulation { get; protected set; }
         public Individual BestIndividual { get; protected set; }
-        public double StandardDeviation { get; set; } = 1; // sigma
-        public double Mean { get; set; } = 0; // mu
+        public OptimizationTarget OptimizationTarget { get; }
+        public IAlgorithm Algorithm { get; }
 
-        protected Population(FunctionBase optimizationFunction, int dimensions)
+        public Population(FunctionBase optimizationFunction1, FunctionBase optimizationFunction2, IAlgorithm algorithm,
+            int dimension, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
-            OptimizationFunction = optimizationFunction;
-            Dimensions = dimensions;
+            OptimizationFunction1 = optimizationFunction1;
+            OptimizationFunction2 = optimizationFunction2;
+            Dimension = dimension;
+            Algorithm = algorithm;
+            OptimizationTarget = optimizationTarget;
+
+            CreateNewPopulation();
         }
 
         public Individual CalculateMean()
         {
-            var mean = new Individual(Dimensions);
+            var mean = new Individual(Dimension);
 
             foreach (var individual in CurrentPopulation)
-                for (int i = 0; i < Dimensions; i++)
+                for (int i = 0; i < Dimension; i++)
                     mean.Position[i] += individual.Position[i];
 
-            for (int i = 0; i < Dimensions; i++)
+            for (int i = 0; i < Dimension; i++)
                 mean.Position[i] /= CurrentPopulation.Count;
 
-            mean.CalculateCost(OptimizationFunction);
+            mean.CalculateCost(OptimizationFunction1, OptimizationFunction2);
 
             return mean;
         }
 
-        public abstract void Evolve();
-        public abstract void CreateNewPopulation();
-    }
-
-    // todo: try to remove new() constraint
-    public class Population<TIndividual> : Population where TIndividual : Individual, new()
-    {
-        public OptimizationTarget OptimizationTarget { get; }
-
-        public new List<TIndividual> CurrentPopulation
-        {
-            get => base.CurrentPopulation.Cast<TIndividual>().ToList();
-            private set => base.CurrentPopulation = value.Cast<Individual>().ToList();
-        }
-
-        public IAlgorithm<TIndividual> Algorithm { get; }
-
-        private readonly Random _random = new Random();
-
-        public Population(FunctionBase optimizationFunction, IAlgorithm<TIndividual> algorithm, int dimensions, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
-            : base(optimizationFunction, dimensions)
-        {
-            Algorithm = algorithm;
-            OptimizationTarget = optimizationTarget;
-            CreateNewPopulation();
-        }
-
-        public override void CreateNewPopulation()
-        {
-            CurrentPopulation = Algorithm.SeedPopulation(this);
-
-            if (OptimizationTarget == OptimizationTarget.Minimum)
-                BestIndividual = CurrentPopulation.OrderBy(e => e.Cost).First();
-            else
-                BestIndividual = CurrentPopulation.OrderByDescending(e => e.Cost).First();
-
-            Generation = 0;
-        }
-
-        public override void Evolve()
+        public void Evolve()
         {
             GeneratePopulation();
             SetBestIndividual();
@@ -96,8 +63,8 @@ namespace Lesson10
             {
                 var currentIndividual = CurrentPopulation[i];
 
-                if ((OptimizationTarget == OptimizationTarget.Maximum && currentIndividual.Cost > bestIndividual.Cost)
-                    || (OptimizationTarget == OptimizationTarget.Minimum && currentIndividual.Cost < bestIndividual.Cost))
+                if ((OptimizationTarget == OptimizationTarget.Maximum && currentIndividual.Cost1 > bestIndividual.Cost1)
+                    || (OptimizationTarget == OptimizationTarget.Minimum && currentIndividual.Cost1 < bestIndividual.Cost1))
                 {
                     bestIndividual = currentIndividual;
                 }
@@ -106,24 +73,16 @@ namespace Lesson10
             BestIndividual = bestIndividual;
         }
 
-        // todo: maybe it should be part of a algorithm
-        internal TIndividual GetRandomIndividual()
+        public void CreateNewPopulation()
         {
-            var min = OptimizationFunction.MinX;
-            var max = OptimizationFunction.MaxX;
-            var interval = Math.Abs(max - min);
+            CurrentPopulation = Algorithm.SeedPopulation(this);
 
-            var randomCoordinates = Enumerable.Range(0, Dimensions)
-                .Select(e => _random.NextDouble() * interval - max)
-                .ToArray();
+            if (OptimizationTarget == OptimizationTarget.Minimum)
+                BestIndividual = CurrentPopulation.OrderBy(e => e.Cost1).First();
+            else
+                BestIndividual = CurrentPopulation.OrderByDescending(e => e.Cost1).First();
 
-            var newIndividual = new TIndividual
-            {
-                Position = new Vector(randomCoordinates),
-                Cost = OptimizationFunction.Calculate(randomCoordinates)
-            };
-
-            return newIndividual;
+            Generation = 0;
         }
     }
 
