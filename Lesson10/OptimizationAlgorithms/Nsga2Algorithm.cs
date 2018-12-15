@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Lesson10.OptimizationAlgorithms
@@ -12,18 +13,18 @@ namespace Lesson10.OptimizationAlgorithms
 
         public List<Individual> SeedPopulation(Population population)
         {
-            return new[] { -2, -1, 0, 2, 4, 1 }
-                .Select(e =>
-                {
-                    var x = new Individual(e);
-                    x.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
-                    return x;
-                })
-                .ToList();
-
-            //return Enumerable.Range(0, MaxPopulation)
-            //    .Select(_ => CreateRandomIndividual(population.OptimizationFunction1, population.OptimizationFunction2, population.Dimension))
+            //return new[] { -2, -1, 0, 2, 4, 1 }
+            //    .Select(e =>
+            //    {
+            //        var x = new Individual(e);
+            //        x.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
+            //        return x;
+            //    })
             //    .ToList();
+
+            return Enumerable.Range(0, MaxPopulation)
+                .Select(_ => CreateRandomIndividual(population.OptimizationFunction1, population.OptimizationFunction2, population.Dimension))
+                .ToList();
         }
 
         public List<Individual> GeneratePopulation(Population population)
@@ -34,12 +35,20 @@ namespace Lesson10.OptimizationAlgorithms
                 var toChoose = population.CurrentPopulation.Except(new[] { individual }).ToList();
                 var randomIndividual = toChoose[_random.Next(toChoose.Count)];
 
+                bool IsPositionValid(double position)
+                {
+                    return double.IsNaN(position) || double.IsInfinity(position);
+                }
+
                 Individual c1, c2;
                 do
                 {
                     (c1, c2) = individual.Crossover(randomIndividual, _random);
 
-                } while (double.IsNaN(c1.Position) || double.IsNaN(c2.Position));
+                } while (IsPositionValid(c1.Position) || IsPositionValid(c2.Position));
+
+                if (double.IsInfinity(c1.Position) || double.IsInfinity(c2.Position))
+                    Debugger.Break();
 
                 c1.Mutate(_random);
                 c2.Mutate(_random);
@@ -48,6 +57,7 @@ namespace Lesson10.OptimizationAlgorithms
                 c2.ApplyBounds(population.OptimizationFunction1, population.OptimizationFunction2, _random);
 
                 c1.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
+                c2.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
 
                 children.Add(c1);
                 children.Add(c2);

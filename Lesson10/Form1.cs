@@ -1,5 +1,7 @@
-﻿using Lesson10.OptimizationAlgorithms;
+﻿using System.Collections.Generic;
+using Lesson10.OptimizationAlgorithms;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Lesson10
@@ -10,6 +12,7 @@ namespace Lesson10
         private readonly Timer _evolveTimer;
         private readonly OneDimensionFunctionBase _optimizationFunction1 = new FirstTestFunction();
         private readonly OneDimensionFunctionBase _optimizationFunction2 = new SecondTestFunction();
+        private List<Individual> _points = new List<Individual>();
 
         public Form1()
         {
@@ -18,11 +21,20 @@ namespace Lesson10
 
             _population = new Population(_optimizationFunction1, _optimizationFunction2, new Nsga2Algorithm(), 2);
 
-            evolveButton.Click += (o, e) =>
+            void HandleClick()
             {
                 _population.Evolve();
+                _points.AddRange(_population.CurrentPopulation);
+                _points = _points.Distinct().ToList();
                 RenderPopulation();
-            };
+            }
+
+            evolveButton.Click += (o, e) => HandleClick();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                HandleClick();
+            }
 
             RenderPopulation();
         }
@@ -32,7 +44,7 @@ namespace Lesson10
             const float increment = 1f;
 
             float ToRealCoordsX(double x) => (float)x * 50 + 700;
-            float ToRealCoordsY(double y) => (float)-y + 100;
+            float ToRealCoordsY(double y) => (float)-y * 50 + 100;
 
             void DrawFunction(OneDimensionFunctionBase f, Pen pen)
             {
@@ -45,12 +57,12 @@ namespace Lesson10
                 g.FillEllipse(Brushes.BlueViolet, x - 5, y - 5, 10, 10);
             }
 
-            DrawFunction(_optimizationFunction1, Pens.Red);
-            DrawFunction(_optimizationFunction2, Pens.Blue);
+            //DrawFunction(_optimizationFunction1, Pens.Red);
+            //DrawFunction(_optimizationFunction2, Pens.Blue);
 
-            foreach (var individual in _population.CurrentPopulation)
+            foreach (var individual in _points)
             {
-                DrawPoint(ToRealCoordsX(individual.Position), ToRealCoordsY(individual.Cost1));
+                DrawPoint(ToRealCoordsX(individual.Cost1), ToRealCoordsY(individual.Cost2));
             }
         }
 

@@ -4,12 +4,35 @@ using System.Diagnostics;
 
 namespace Lesson10
 {
-    [DebuggerDisplay("Position = {" + nameof(Position) + "}")]
+    [DebuggerDisplay("Position={Position}, c1={Cost1}, c2={Cost2}")]
     public class Individual
     {
         public double Position;
-        public double Cost1 { get; set; }
-        public double Cost2 { get; set; }
+        private double _cost1;
+        private double _cost2;
+
+        public double Cost1
+        {
+            get => _cost1;
+            set
+            {
+                if (double.IsNaN(_cost1))
+                    Debugger.Break();
+                _cost1 = value;
+            }
+        }
+
+        public double Cost2
+        {
+            get => _cost2;
+            set
+            {
+                if (double.IsNaN(_cost1))
+                    Debugger.Break();
+                _cost2 = value;
+            }
+
+        }
 
         public const float MutationConstant = 0.8f;
 
@@ -65,11 +88,16 @@ namespace Lesson10
         {
             if (random.NextDouble() < MutationConstant)
             {
+                var original = Position;
+
                 int index = random.Next(BinaryPosition.Length - 1);
                 char b = BinaryPosition[index] == '0' ? '1' : '0';
                 var arr = BinaryPosition.ToCharArray();
                 arr[index] = b;
                 BinaryPosition = string.Join(string.Empty, arr);
+
+                if (double.IsNaN(Position))
+                    Position = original;
             }
         }
 
