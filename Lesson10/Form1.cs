@@ -16,6 +16,14 @@ namespace Lesson10
             InitializeComponent();
             renderContainer.Paint += (o, e) => PaintGraph(e.Graphics);
 
+            _population = new Population(_optimizationFunction1, _optimizationFunction2, new Nsga2Algorithm(), 2);
+
+            evolveButton.Click += (o, e) =>
+            {
+                _population.Evolve();
+                RenderPopulation();
+            };
+
             RenderPopulation();
         }
 
@@ -23,8 +31,8 @@ namespace Lesson10
         {
             const float increment = 1f;
 
-            float ToRealCoordsX(float x) => x * 50 + 700;
-            float ToRealCoordsY(double x) => (float) -x;
+            float ToRealCoordsX(double x) => (float)x * 50 + 700;
+            float ToRealCoordsY(double y) => (float)-y + 100;
 
             void DrawFunction(OneDimensionFunctionBase f, Pen pen)
             {
@@ -32,18 +40,23 @@ namespace Lesson10
                     g.DrawLine(pen, ToRealCoordsX(x), ToRealCoordsY(f.Calculate(x)), ToRealCoordsX(x + increment), ToRealCoordsY(f.Calculate(x + increment)));
             }
 
+            void DrawPoint(float x, float y)
+            {
+                g.FillEllipse(Brushes.BlueViolet, x - 5, y - 5, 10, 10);
+            }
+
             DrawFunction(_optimizationFunction1, Pens.Red);
             DrawFunction(_optimizationFunction2, Pens.Blue);
+
+            foreach (var individual in _population.CurrentPopulation)
+            {
+                DrawPoint(ToRealCoordsX(individual.Position), ToRealCoordsY(individual.Cost1));
+            }
         }
 
         private void RenderPopulation()
         {
             renderContainer.Refresh();
-        }
-
-        private Population GetPopulation(string algorithmName, string optimizationFunctionName)
-        {
-            return new Population(_optimizationFunction1, _optimizationFunction2, new Nsga2Algorithm(), 2);
         }
     }
 }
