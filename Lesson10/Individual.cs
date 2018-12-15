@@ -101,6 +101,17 @@ namespace Lesson10
             }
         }
 
+        public Individual Crossover2(Individual other, Random random)
+        {
+            var p1 = Position;
+            var p2 = other.Position;
+            var min = Math.Min(p1, p2);
+            var interval = Math.Abs(p2 - p1);
+
+            var p = random.NextDouble() * interval + min;
+            return new Individual(p);
+        }
+
         public (Individual, Individual) Crossover(Individual other, Random random)
         {
             if (BinaryPosition.Length != other.BinaryPosition.Length)

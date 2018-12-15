@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lesson10.OptimizationAlgorithms;
+﻿using Lesson10.OptimizationAlgorithms;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,9 +29,7 @@ namespace Lesson10
                 RenderPopulation();
             }
 
-            evolveButton.Click += (o, e) => HandleClick();
-
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 HandleClick();
             }
@@ -41,15 +39,40 @@ namespace Lesson10
 
         private void PaintGraph(Graphics g)
         {
-            const float increment = 1f;
+            float ToRealCoordsX(double x) => (float)x * 80 + 350;
+            float ToRealCoordsY(double y) => (float)-y * 80 + 50;
 
-            float ToRealCoordsX(double x) => (float)x * 50 + 700;
-            float ToRealCoordsY(double y) => (float)-y * 50 + 100;
-
-            void DrawFunction(OneDimensionFunctionBase f, Pen pen)
+            void DrawX()
             {
-                for (float x = f.MinX; x < f.MaxX; x += increment)
-                    g.DrawLine(pen, ToRealCoordsX(x), ToRealCoordsY(f.Calculate(x)), ToRealCoordsX(x + increment), ToRealCoordsY(f.Calculate(x + increment)));
+                double xStart = -4;
+                double xEnd = 0;
+                double y = 0.2;
+                var pen = Pens.Black;
+                var font = new Font(FontFamily.GenericMonospace, 10);
+                g.DrawLine(pen, ToRealCoordsX(xStart), ToRealCoordsY(y), ToRealCoordsX(xEnd), ToRealCoordsY(y));
+
+
+                for (double i = xStart; i <= xEnd; i += 0.5)
+                {
+                    g.DrawLine(pen, ToRealCoordsX(i), ToRealCoordsY(y), ToRealCoordsX(i), ToRealCoordsY(y + 0.2));
+                    g.DrawString(i.ToString("0.0"), font, Brushes.Black, ToRealCoordsX(i - 0.3), ToRealCoordsY(y + 0.4));
+                }
+            }
+
+            void DrawY()
+            {
+                double x = 0.2;
+                double yStart = -3.5;
+                double yEnd = 0;
+                var pen = Pens.Black;
+                var font = new Font(FontFamily.GenericMonospace, 10);
+                g.DrawLine(pen, ToRealCoordsX(x), ToRealCoordsY(yStart), ToRealCoordsX(x), ToRealCoordsY(yEnd));
+
+                for (double i = yStart; i <= yEnd; i += 0.5)
+                {
+                    g.DrawLine(pen, ToRealCoordsX(x), ToRealCoordsY(i), ToRealCoordsX(x + 0.2), ToRealCoordsY(i));
+                    g.DrawString(i.ToString("0.0"), font, Brushes.Black, ToRealCoordsX(x + 0.4), ToRealCoordsY(i + 0.1));
+                }
             }
 
             void DrawPoint(float x, float y)
@@ -57,13 +80,14 @@ namespace Lesson10
                 g.FillEllipse(Brushes.BlueViolet, x - 5, y - 5, 10, 10);
             }
 
-            //DrawFunction(_optimizationFunction1, Pens.Red);
-            //DrawFunction(_optimizationFunction2, Pens.Blue);
 
             foreach (var individual in _points)
             {
                 DrawPoint(ToRealCoordsX(individual.Cost1), ToRealCoordsY(individual.Cost2));
             }
+
+            DrawX();
+            DrawY();
         }
 
         private void RenderPopulation()

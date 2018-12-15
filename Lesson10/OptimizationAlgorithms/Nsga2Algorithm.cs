@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Lesson10.OptimizationAlgorithms
@@ -40,27 +39,13 @@ namespace Lesson10.OptimizationAlgorithms
                     return double.IsNaN(position) || double.IsInfinity(position);
                 }
 
-                Individual c1, c2;
-                do
-                {
-                    (c1, c2) = individual.Crossover(randomIndividual, _random);
+                var c = individual.Crossover2(randomIndividual, _random);
+                c.Mutate(_random);
 
-                } while (IsPositionValid(c1.Position) || IsPositionValid(c2.Position));
+                c.ApplyBounds(population.OptimizationFunction1, population.OptimizationFunction2, _random);
+                c.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
 
-                if (double.IsInfinity(c1.Position) || double.IsInfinity(c2.Position))
-                    Debugger.Break();
-
-                c1.Mutate(_random);
-                c2.Mutate(_random);
-
-                c1.ApplyBounds(population.OptimizationFunction1, population.OptimizationFunction2, _random);
-                c2.ApplyBounds(population.OptimizationFunction1, population.OptimizationFunction2, _random);
-
-                c1.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
-                c2.CalculateCost(population.OptimizationFunction1, population.OptimizationFunction2);
-
-                children.Add(c1);
-                children.Add(c2);
+                children.Add(c);
             }
 
             var fronts = FastNondominatedSort(children.Concat(population.CurrentPopulation).ToList());
