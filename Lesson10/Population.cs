@@ -8,15 +8,15 @@ namespace Lesson10
     public class Population
     {
         public int Dimension { get; }
-        public FunctionBase OptimizationFunction1 { get; }
-        public FunctionBase OptimizationFunction2 { get; }
+        public OneDimensionFunctionBase OptimizationFunction1 { get; }
+        public OneDimensionFunctionBase OptimizationFunction2 { get; }
         public int Generation { get; protected set; }
         public List<Individual> CurrentPopulation { get; protected set; }
         public Individual BestIndividual { get; protected set; }
         public OptimizationTarget OptimizationTarget { get; }
         public IAlgorithm Algorithm { get; }
 
-        public Population(FunctionBase optimizationFunction1, FunctionBase optimizationFunction2, IAlgorithm algorithm,
+        public Population(OneDimensionFunctionBase optimizationFunction1, OneDimensionFunctionBase optimizationFunction2, IAlgorithm algorithm,
             int dimension, OptimizationTarget optimizationTarget = OptimizationTarget.Minimum)
         {
             OptimizationFunction1 = optimizationFunction1;
@@ -28,21 +28,21 @@ namespace Lesson10
             CreateNewPopulation();
         }
 
-        public Individual CalculateMean()
-        {
-            var mean = new Individual(Dimension);
+        //public Individual CalculateMean()
+        //{
+        //    var mean = new Individual(Dimension);
 
-            foreach (var individual in CurrentPopulation)
-                for (int i = 0; i < Dimension; i++)
-                    mean.Position[i] += individual.Position[i];
+        //    foreach (var individual in CurrentPopulation)
+        //        for (int i = 0; i < Dimension; i++)
+        //            mean.Position[i] += individual.Position[i];
 
-            for (int i = 0; i < Dimension; i++)
-                mean.Position[i] /= CurrentPopulation.Count;
+        //    for (int i = 0; i < Dimension; i++)
+        //        mean.Position[i] /= CurrentPopulation.Count;
 
-            mean.CalculateCost(OptimizationFunction1, OptimizationFunction2);
+        //    mean.CalculateCost(OptimizationFunction1, OptimizationFunction2);
 
-            return mean;
-        }
+        //    return mean;
+        //}
 
         public void Evolve()
         {

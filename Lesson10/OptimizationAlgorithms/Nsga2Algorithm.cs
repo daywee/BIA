@@ -20,18 +20,16 @@ namespace Lesson10.OptimizationAlgorithms
 
         public List<Individual> GeneratePopulation(Population population)
         {
-
+            throw new NotImplementedException();
         }
 
-        private Individual CreateRandomIndividual(FunctionBase optimizationFunction1, FunctionBase optimizationFunction2, int dimension)
+        private Individual CreateRandomIndividual(OneDimensionFunctionBase optimizationFunction1, OneDimensionFunctionBase optimizationFunction2, int dimension)
         {
             var min = optimizationFunction1.MinX;
             var max = optimizationFunction2.MaxX;
             var interval = Math.Abs(max - min);
 
-            var randomCoordinates = Enumerable.Range(0, dimension)
-                .Select(e => _random.NextDouble() * interval - max)
-                .ToArray();
+            var randomCoordinates = _random.NextDouble() * interval - max;
 
             var newIndividual = new Individual(randomCoordinates);
             newIndividual.CalculateCost(optimizationFunction1, optimizationFunction2);
