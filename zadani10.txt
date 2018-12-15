@@ -7,3 +7,6 @@ postup:
 3. roztridim do front (ranku)
 4. nova populace (NP)
   - vybiram prvni reseni z kazdeho ranku (myslim)
+
+https://github.com/unamfi/NSGA-II
+https://www.iitk.ac.in/kangal/Deb_NSGA-II.pdf
